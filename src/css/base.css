@@ -1,0 +1,150 @@
+html{ height: 100%;}
+body,ul,h1,h2,h3,p{ padding: 0; margin: 0;}
+body{ min-height: 100%; font: 13px/1.4 "Microsoft Yahei", Arial; color: #000;}
+textarea{ display: block; width: 100%; line-height: 30px; font-size: 14px; border: 0; resize: none; outline: none;}
+input{ display: block; padding: 0; width: 100%; line-height: 36px; height: 36px; text-indent: 2%; border: 0; outline: none;}
+ul{ list-style: none;}
+i{ font-style: normal;}
+a{ text-decoration: none;}
+
+@-webkit-keyframes loadingGif{
+    from{ -webkit-transform: rotate(0deg);}
+    to{ -webkit-transform: rotate(360deg);}
+}
+
+@keyframes loadingGif{
+    from{ transform: rotate(0deg);}
+    to{ transform: rotate(360deg);}
+}
+
+.common-list-ctn,.common-detail-ctn,.joke-list-ctn,.feedback,.copyright,.share-ctn,.beauty-list-ctn,.beauty-detail-ctn,.bzmh-ctn{ display: none;}
+
+.init-loading{ position: fixed; top: 50%; left: 50%; margin-top: -16px; margin-left: -16px; width: 32px; height: 32px; background: url(./../images/icons-init-loading.png) center no-repeat; background-size: 32px; -webkit-animation: loadingGif linear 1s infinite; animation: loadingGif linear 1s infinite; z-index: 100;}
+
+/**宫格列表页－开始**/
+.grid-menu{ display: none; background: #ffffff; font-size: 0; overflow: hidden;}
+.grid-menu .grid-item{ position: relative; display: inline-block; width: 33.33%; box-sizing: border-box; font-size: 0; line-height: 1; border-bottom: 1px solid #eeeeee; text-align: center;}
+.grid-menu .grid-item:after{ content: ""; display: inline-block; width: 0; height: 100%; vertical-align: middle;}
+.grid-menu .grid-item:nth-child(3n+2){ border-right: 1px solid #eeeeee; border-left: 1px solid #eeeeee;}
+.grid-menu .grid-icon{ display: inline-block; padding-top: 36px; background-repeat: no-repeat; background-position: center top; background-size: 30px auto; font-size: 13px; color: #000; white-space: nowrap; vertical-align: middle;}
+.grid-menu .grid-recommend{ position: absolute; top: 0; right: 0; display: inline-block; width: 45px; height: 45px; background: url(./../images/icons-recomend.png) 0 0 no-repeat; background-size: 45px auto;}
+/**宫格列表页－结束**/
+
+/**普通列表页－开始**/
+.common-headbar{ position: relative; height: 42px; line-height: 42px; font-size: 16px; background-color: #f8f8f8; border-bottom: 1px solid #c6c6c6; text-indent: 50px;}
+.common-headbar .common-icons{ position: absolute; top: 0; width: 50px; height: 100%; background-size: 16px auto; background-position: .875em 50%; background-repeat: no-repeat;}
+.common-headbar .common-arrowleft{ left: 0; background-image: url(./../images/icons-arrowleft@2x.png);}
+.common-headbar .common-share{ right: 0; background-image: url(./../images/icons-share@2x.png);}
+
+.common-list-ctn{ background-color: #ffffff;}
+.common-list{ padding: 0 .875em;}
+.common-list .common-item{ position: relative; padding-top: .8em; padding-bottom: .8em; border-bottom: 1px solid #e5e5e5;}
+.common-list .common-item-rich{ padding-right: 90px; min-height: 80px;}
+.common-list .common-item-rich .common-item-img{ position: absolute; top: .8em; right: 0; background-color: #eceff1;}
+.common-list .common-item-rich .common-item-img>img{ display: block; width: 80px;}
+.common-list .common-item-title{ padding-bottom: 0.5em; font-size: 16px; line-height: 1.3; text-align: justify;}
+.common-list .common-item-des{ font-size: 15px; color: #6e6e6e; text-align: justify;}
+.common-list .common-item-heat{ position: absolute; left: 0; bottom: .4em; font-size: 12px; color: #a0a0a0;}
+.common-loading-text{ text-align: center; font-size: 14px; line-height: 3;}
+/**普通列表页－结束**/
+
+/**普通详情页－结束**/
+.common-detail-ctn{ min-height: 100%; background-color: #f1f1f1; overflow: hidden;}
+.common-detail{ position: relative; padding: .875em .875em 2.6em; margin-bottom: 10px; border-bottom: 1px solid #e5e5e5; background-color: #fff; font-size: 18px;}
+.common-detail .common-detail-title{ font-size: 20px; padding-bottom: .8em; text-align: justify;}
+.common-detail .common-detail-img{ text-align: center; padding-bottom: .8em;}
+.common-detail .common-detail-img>img{ display: block; max-width: 100%;}
+.common-detail-wrap .common-detail-text{ padding-bottom: .8em; line-height: 1.5; color: #333; text-indent: 2em;}
+.common-detail .post-time,.joke-list .joke-heat,.bzmh-list .joke-heat{ position: absolute; left: .875em; bottom: 1em; font-size: 11px; color: rgba( 0, 0, 0, 0.4 );}
+.common-detail .post-origin,.joke-list .joke-share,.bzmh-list .bzmh-share{ position: absolute; right: .875em; bottom: .6em; padding: 0px 10px; height: 24px; line-height: 24px; background-color: #f7f7f7; color: #666666; font-size: 13px; border-radius: 10px;}
+.common-detail-ctn .post-siblings,.common-detail-ctn .common-list, .common-detail-ctn .key-words, .copyright-info{ padding: 0 .875em; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; margin-bottom: 10px; background-color: #fff;}
+.common-detail-ctn .common-list li:last-child{ border-bottom: 0;}
+.common-detail-ctn .common-list .common-list-like{ height: 40px; line-height: 40px; font-size: 14px; font-weight: normal; border-bottom: 1px solid #e5e5e5;}
+.common-detail-ctn .post-siblings{ font-size: 12px; line-height: 42px;}
+.common-detail-ctn .post-siblings .post-siblings-href,.common-detail-ctn .key-words .key-words-href{overflow:hidden; text-overflow: ellipsis; white-space: nowrap;}
+.common-detail-ctn .post-siblings .post-siblings-href{ display: block; width: 100%; color: #000; border-bottom: 1px solid #e5e5e5;}
+.common-detail-ctn .post-siblings .post-siblings-href:last-child{ border-bottom: 0;}
+.common-detail-ctn .post-siblings .post-siblings-prev{ color: #7f7f7f;}
+.common-detail-ctn .key-words{ padding-left: 0;}
+.common-detail-ctn .key-words .key-words-title{ position: relative; padding-left: .875em; height: 40px; line-height: 40px; font-size: 14px; font-weight: normal; border-bottom: 1px solid #e5e5e5;}
+.common-detail-ctn .key-words .reload-keywords{ position: absolute; top: 10px; right: 0; padding-right: 20px; line-height: 20px; color: #757575;}
+.common-detail-ctn .key-words .reload-circle{ position: absolute; top: 10px; right: 0; display: block; width: 20px; height: 20px; background: url(./../images/icons-refresh@2x.png) 50% no-repeat; background-size: 14px;}
+.common-detail-ctn .key-words .key-words-list{ padding-top: 8px; font-size: 0;}
+.common-detail-ctn .key-words .key-words-text{ position: relative; display: inline-block; width: 50%; margin-bottom: 5px; font-size: 14px; line-height: 30px;}
+.common-detail-ctn .key-words .key-words-text:nth-child(2n+1):after{ content: ""; position: absolute; top: 8px; right: 0; width: 1px; height: 14px; background-color: #e5e5e5;}
+.common-detail-ctn .key-words .key-words-href{ display: block; width:90%; padding-left: 10%; color: #000;}
+.copyright-info{ position: relative; font-size: 0; color: #000; opacity: 0;}
+.copyright-info:after{ content: ""; display: block; position: absolute; top: 13px; left: 50%; margin-left: .5px; width: 1px; height: 14px; background-color: #e5e5e5;}
+.copyright-info>li{ width: 50%; display: inline-block;}
+.copyright-info a{ display: block; width: 100%; font-size: 14px; color: #000; line-height: 40px; text-align: center;}
+/**普通详情页－结束**/
+
+/**笑话列表页－开始**/
+.joke-category{ display: table; width: 100%; height: 38px; line-height: 38px; border-bottom: 1px solid #d9d9d9;}
+.joke-category li{ display: table-cell; text-align: center;}
+.joke-category .active{ color: #ff1d27;}
+.joke-list,.bzmh-list{ padding: 0 .875em;}
+.joke-list .joke-list-item,.bzmh-list .joke-list-item{ position: relative; padding: .875em 0 2.5em; border-bottom: 1px solid #e5e5e5;}
+.joke-list .joke-title,.bzmh-list .joke-title{ font-size: 13px; font-weight: normal; color: #758e9a; line-height: 13px;}
+.joke-list .joke-des,.bzmh-list .joke-des{ padding: .5em 0; font-size: 15px;}
+.joke-list .joke-heat,.bzmh-list .joke-heat{ left: 0;}
+.joke-list .joke-share,.bzmh-list .bzmh-share{ right: 0; padding-right: 28px; background: #f7f7f7 url(./../images/icons-share@2x.png) 40px center no-repeat; background-size: 14px;}
+/**笑话列表页－结束**/
+
+/**暴走漫画列表页－开始**/
+.bzmh-list .joke-list-item{ padding-bottom: 42px;}
+.bzmh-item{ display: block; margin-top: .5em; border: 1px solid #f4f4f4; overflow: hidden;}
+.bzmh-item .bzmh-item-des{ height: 32px; line-height: 32px; background-color: #f4f4f4; color: #707070; text-align: center;}
+.bzmh-item img{ display: block; max-width: 100%; margin: 0 auto;}
+/**暴走漫画列表页－结束**/
+
+/**意见反馈－版权－开始**/
+.feedback,.copyright{ min-height: 100%; background-color: #eeeeee; overflow: hidden;}
+.feedback .feedback-ctn{ padding: .875em;}
+.feedback .feedback-text-wrap, .feedback .feedback-contact{ margin-bottom: 10px;}
+.feedback .feedback-text-wrap{ position: relative; padding: 0 2%; background-color: #fff;}
+.feedback .feedback-text-count{ position: absolute; right: 2%; bottom: 2%; background-color: #fff; font-size: 12px; line-height: 12px; color: #bdbdbd;}
+.feedback .feedback-submit{ display: block; width: 100%; height: 36px; line-height: 36px; text-align: center; color: #fff; background-color: #546e7a; border-radius: 3px;}
+.copyright-des{ padding: .875em .8754em 0; line-height: 1.6; text-align: justify;}
+/**意见反馈－版权－结束**/
+
+/**分享浮层－开始**/
+.share-ctn{ position: fixed; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0,0,0,.5); z-index: 100;}
+.share-ctn .close-share-ctn{ height: 100%;}
+.share-ctn .share-bg{ position: absolute; bottom: 0; display: table; width: 100%; background-color: #ffffff; text-align: justify; font-size: 0; z-index: 10;}
+.share-ctn .share-item-wrap{ display: table-cell; padding: 5%;}
+.share-ctn .share-item-wrap:nth-child(2){ text-align: center;}
+.share-ctn .share-item-wrap:nth-child(3){ text-align: right;}
+.share-ctn .share-item{ display: inline-block; width: 50px; padding-top: 50px; font-size: 12px; line-height: 1.6; background-image: url(./../images/share-icons.png); background-size: 50px; background-repeat: no-repeat; color: #000; text-align: center;}
+.share-ctn .share-qzone{ background-position: 0 0;}
+.share-ctn .share-wb{ background-position: 0 -200px;}
+.share-ctn .share-twb{ background-position: 0 -99px;}
+/**分享浮层－结束**/
+
+/**美女列表页－开始**/
+.beauty-list-ctn{ padding-bottom: 4px; background-color: #212121; overflow: hidden;}
+.beauty-category-ctn{ display: table; width: 100%; height: 38px; line-height: 38px; background-color: #212121;}
+.beauty-category-ctn .beauty-category{ display: table-cell; text-align: center; color: #fff;}
+.beauty-category-ctn .active{ color: #e53935;}
+.beauty-list-ctn .common-headbar{ border-bottom: 0;}
+.beauty-list-ctn .beauty-waterfall-left{ float: left; width: 50%;}
+.beauty-list-ctn .beauty-waterfall-right{ float: left; width: 50%;}
+.beauty-list-ctn .beauty-item{ position: relative; display: block; margin: 2px 1px 0; background: #252525; color: #fff; font-size: 0;}
+.beauty-list-ctn .beauty-item img{ width: 100%;}
+.beauty-list-ctn .beauty-item .img-count{ position: absolute; top: 10px; right: 10px; height: 16px; padding: 0px 3px; background-color: rgba(252,142,146,0.6); font-size: 12px; text-align: center; line-height: 16px;}
+/**美女列表页－结束**/
+
+/**美女详情页－开始**/
+.beauty-detail-ctn{ position: relative; height: 100%; background-color: #000;}
+.beauty-detail-ctn .beauty-detail-title-ctn{ position: absolute; left: 0px; width: 100%; height: 48px; background: #212121; color: #fff; line-height: 48px; text-align: center; overflow: hidden; z-index: 10;}
+.beauty-detail-ctn .beauty-detail-title{ padding: 0px 60px; font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.beauty-detail-ctn .img-index{ position: absolute; top: 0; right: 10px;}
+.beauty-detail-ctn .arrow-left-white{ display: block; position: absolute; top: 0; left: 0; width: 50px; height: 100%; background: url(./../images/icons-arrowleft-white.png) no-repeat center; background-size: 16px;}
+.beauty-detail-ctn .share-icon-white{ position: absolute; bottom: 0; left: 0; width: 50px; height: 50px; background: url(./../images/icons-share-white.png) center no-repeat; background-size: 16px;}
+.beauty-detail-ctn .beauty-gallery{ height: 100%;}
+.beauty-detail-ctn .img-gallery{ position: relative; height: 100%; font-size: 0px; overflow: hidden;}
+.beauty-detail-ctn .img-gallery li{ position: relative; display: inline-block; height: 100%; text-align: center; font-size: 0;}
+.beauty-detail-ctn .img-gallery li:after{ content: ""; display: inline-block; width: 0px; height: 100%; vertical-align: middle;}
+.beauty-detail-ctn .img-gallery img{ display: inline-block; vertical-align: middle;}
+.beauty-detail-ctn .img-gallery .init-li-animation{ position: absolute; top: 50%; left: 50%; display: inline-block; width: 26px; height: 26px; margin-top: -13px; margin-left: -13px; background: url(./../images/loading.png); background-size: 26px; z-index: 1; -webkit-animation: loadingGif linear 1s infinite; animation: loadingGif linear 1s infinite;}
+/**美女详情页－结束**/

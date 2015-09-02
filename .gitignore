@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Node template
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Grunt intermediate storage
+.grunt
+
+# Folder
+node_modules
+public
