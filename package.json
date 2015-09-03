@@ -2,10 +2,10 @@
   "name": "ezine5.0",
   "version": "1.0.0",
   "description": "dev",
-  "main": "index.js",
+  "main": "render.js",
   "scripts": {
     "build": "browserify index.js > bundle.js",
-    "watch": "watchify --debug src/app/render.js -o public/build/bundle.js"
+    "watch": "watchify --debug src/app/render.jsx -o public/build/bundle.js"
   },
   "keywords": [
     "react"
@@ -16,6 +16,7 @@
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "reactify": "^1.1.1",
+    "reflux": "^0.2.12",
     "watchify": "^3.4.0"
   },
   "devDependencies": {

@@ -1,11 +1,14 @@
 'use strict';
 
 import React from 'react';
+import GridMenu from './gridMenu.jsx';
 
 let App = React.createClass({
   render() {
     return (
-      <div>Let's do it!!!</div>
+      <div className="grid-box">
+        <GridMenu />
+      </div>
     );
   }
 });
