@@ -1,13 +1,20 @@
 'use strict';
 
 import React from 'react';
-import GridMenu from './gridMenu.jsx';
+import GridList from './GridList.jsx';
 
-let App = React.createClass({
+const App = React.createClass({
+  getInitialState() {
+    return {
+      title: "新鲜事儿"
+    }
+  },
   render() {
     return (
-      <div className="grid-box">
-        <GridMenu />
+      <div id="app" className="full-height">
+        <div className="grid-box">
+          <GridList />
+        </div>
       </div>
     );
   }
