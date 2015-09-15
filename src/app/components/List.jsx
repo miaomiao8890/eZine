@@ -1,18 +1,21 @@
 'use strict';
 
 import React from 'react';
+import Reflux from 'reflux';
 import HeaderBar from './HeaderBar.jsx';
 import SlideBar from './SlideBar.jsx';
 import HotWords from './HotWords.jsx';
-import NewsList from './NewsList.jsx';
+import ListUl from './ListUl.jsx';
 
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
+import HotWordsAction from '../actions/HotWordsAction';
+import HotWordsStore from '../stores/HotWordsStore';
 
 const List = React.createClass({
   
-  mixins: [AjaxMixin, ScrollMixin],
+  mixins: [AjaxMixin, ScrollMixin, Reflux.connect(HotWordsStore, 'hotwords'), Reflux.listenTo(HotWordsStore, 'onStatusChange')],
 
   getInitialState() {
     return {
@@ -24,31 +27,22 @@ const List = React.createClass({
       hotwordslist: []
     };
   },
-  componentWillMount() {
+  componentDidMount() {
+    //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
+
     let _this = this;
     let _data = {};
-    //list
     
-    //hotwords
+    //getAll
     this.getAjaxData(
       ajaxConfig.hotwords, 
       { group: this.state.hotwordsGroup },
       function(result) {
-        // _this.setState({
-        //   hotwordsGroup: result.data.nextGroup,
-        //   hotwordslist: result.data.list 
-        // });
-        // _data.hotwordsGroup = result.data.nextGroup;
         _data.hotwordslist = result.data.list;
         _this.getAjaxData(
           ajaxConfig.list, 
           { cid: _this.props.params.cid, p: _this.state.page },
           function(result) {
-            // _this.setState({
-            //   cname: result.cname,
-            //   bid: result.bid,
-            //   newslist: result.data 
-            // });
             _data.cname = result.cname;
             _data.newslist = result.data;
             _this.setState(_data);
@@ -64,7 +58,7 @@ const List = React.createClass({
         <HeaderBar cname={ this.state.cname } />
         <SlideBar />
         <HotWords hotwordslist={ this.state.hotwordslist } handleChangeFn={ this.handleChange } />
-        <NewsList newslist={ this.state.newslist } />
+        <ListUl newslist={ this.state.newslist } />
       </div>
     );
   },
@@ -87,11 +81,13 @@ const List = React.createClass({
     );
   },
   handleChange() {
-    let _hotwordsGroup = ++this.state.hotwordsGroup
-    this.setState({
-      hotwordsGroup: _hotwordsGroup
-    })
-  }
+    let _group = ++this.state.hotwordsGroup;
+    HotWordsAction.changeItem(_group);
+    this.setState({hotwordsGroup: _group});
+  },
+  onStatusChange(list) {
+    this.setState({hotwordslist: list});
+  },
 });
 
 export default List;

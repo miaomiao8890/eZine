@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const NewsItem = React.createClass({
+const LightListItem = React.createClass({
   getInitialState() {
     return {
       style: {},
@@ -29,13 +29,14 @@ const NewsItem = React.createClass({
     // console.log(this.props.data)
     return (
       
-      <li className="news-item clearfix">
-        { this.getImgComponent(this.props.data.thumbnailPic) }
-        <div className="news-info" style={ this.state.style }>
-          { this.getTitleComponent(this.props.data.title) }
-          <p className="news-bottom">
+      <li className="light-item">
+        <div className="light-info">
+          <p className="light-title">{ this.props.data.authorName }</p>
+          <p className="light-context">{ this.props.data.context }</p>
+          { this.getImgComponent(this.props.data.thumbnailPic) }
+          <p className="light-bottom">
             <span>{ this.props.data.createDateStr }</span>
-            <span>{ this.props.data.authorName }</span>
+            <span className="light-author">{ this.props.data.authorName }</span>
           </p>
         </div>
       </li>
@@ -47,16 +48,7 @@ const NewsItem = React.createClass({
       thumbnailPicDom = <img src={ thumbnailPic } />
     }
     return thumbnailPicDom;
-  },
-  getTitleComponent(title) {
-    let titleDom;
-    if (!title) {
-      titleDom = <p className="news-context">{ this.props.data.context }</p>
-    } else {
-      titleDom = <p className="news-title">{ this.props.data.title }</p>
-    }
-    return titleDom;
   }
 });
 
-export default NewsItem;
+export default LightListItem;

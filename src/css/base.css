@@ -16,6 +16,7 @@ input:focus{border:0;outline:medium}
 .hide{display:none}
 .full-height{min-height: 100%;overflow-y: auto;}
 .mt10{margin-top: .625rem;}
+.mt7{margin-top: .4375rem;}
 
 @-webkit-keyframes loadingGif{
     from{ -webkit-transform: rotate(0deg);}
@@ -46,7 +47,7 @@ input:focus{border:0;outline:medium}
 .hot-words .hot-words-item{float: left;width: 50%;height: 1.155rem;margin: .5625rem 0; line-height: 1.155rem; box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
 .hot-words .hot-words-item a{color: #404040;}
 .hot-words .hot-words-item:nth-child(2n+2){border-left: 1px solid #e5e5e5;text-indent: .8125rem;}
-.news-list{background-color: #fff;border-top: 1px solid #e5e5e5;padding: 0 .8125rem;border-bottom: 1px solid #e5e5e5;margin-top: .4375rem;}
+.news-list{background-color: #fff;border-top: 1px solid #e5e5e5;padding: 0 .8125rem;border-bottom: 1px solid #e5e5e5;}
 .news-item{padding: .8125rem 0;border-bottom: 1px solid #e5e5e5;}
 .news-item:last-child{border-bottom: none;}
 .news-item a{color: #000;}
@@ -72,8 +73,12 @@ input:focus{border:0;outline:medium}
 .news-detail-side{width: 100%;height: 2.8125rem;line-height: 2.8125rem;font-size: 1rem;color: #404040;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .news-detail-side:first-child{border-bottom: 1px solid #e5e5e5;}
 .news-detail-side.visited{color: #a3a3a3;}
+.guess-like{background-color: #fff;}
+.guess-like-title{width: 100%;height: 2.5rem;line-height: 2.5rem; color: #404040;font-size: .875rem;text-indent: .8125rem;}
+.guess-like-list{padding:0 .8125rem;}
+.guess-like-list .news-list{padding:0;}
 /* 美女列表 */
-.beauty-nav{width: 100%;background-color: #212121;}
+.beauty-nav{width: 100%;background-color: #212121;border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;}
 .beauty-nav ul li{float: left;width: 25%;height: 2.5rem;color: #fff;line-height: 2.5rem;text-align: center;font-size: .75rem;}
 .beauty-nav ul li a{color: #fff;}
 .beauty-nav ul li.on a{color: #d32b33;}
@@ -87,6 +92,21 @@ input:focus{border:0;outline:medium}
 .my-gallery-class{background-color: #212121;}
 .image-element-class{width: 50%;margin-bottom: 2px;}
 .image-element-class img{width: 100%;}
+/* 笑话 */
+.light-nav{width: 100%;background-color: #fff;}
+.light-nav ul li{float: left;width: 25%;height: 2.5rem;color: #4d4d4d;line-height: 2.5rem;text-align: center;font-size: .75rem;}
+.light-nav ul li a{color: #4d4d4d;}
+.light-nav ul li.on a{color: #ff1d27;}
+.light-list{background-color: #fff;border-bottom: 1px solid #e5e5e5;}
+.light-item{padding: .8125rem;border-bottom: 1px solid #e5e5e5;}
+.light-item:last-child{border-bottom: none;}
+.light-info .light-title{color: #607d8b;font-size: .8125rem;margin-bottom: .4375rem;}
+.light-info .light-context{color: #404040;font-size: .9375rem;line-height: 1.5rem;/*max-height: 6rem;overflow: hidden;*/}
+.light-info img{width: 9.625rem;margin-top: .5rem;}
+.light-info .light-bottom{margin-top: .8125rem;color: #b8b8b8;font-size: .6875rem;}
+.light-item .light-info .light-bottom span{margin-right: .625rem;}
+.light-info .light-bottom .light-author{color: #42a5f5;}
+
 
 
 

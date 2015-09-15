@@ -1,12 +1,12 @@
 'use strict';
 
 import React from 'react';
-import NewsItem from './NewsItem.jsx';
+import ListItem from './ListItem.jsx';
 
-const NewsList = React.createClass({
+const ListUl = React.createClass({
   render() {
     let newsNodes = this.props.newslist.map(news => (
-      <NewsItem key={ news.objectId } data={ news } />
+      <ListItem key={ news.objectId } data={ news } />
     ));
     return (
       <div className="news-box">
@@ -19,4 +19,4 @@ const NewsList = React.createClass({
   }
 });
 
-export default NewsList;
+export default ListUl;
