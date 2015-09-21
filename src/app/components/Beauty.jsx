@@ -4,13 +4,13 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import HeaderBar from './HeaderBar.jsx';
-import BeautyList from './BeautyList.jsx';
 import Gallery from './Gallery.jsx';
+import BeautyImg from './BeautyImg.jsx';
 
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
-import navConfig from '../util/navConfig.js';
+import slideImg from '../util/slideImg.js';
 
 const Beauty = React.createClass({
   
@@ -22,11 +22,12 @@ const Beauty = React.createClass({
       cid: null,
       page: 1,
       beautylist: [],
+      navlist: [],
     };
   },
   componentDidMount() {
     let _this = this;
-    this.getAjaxData(
+    this.getAjaxDataByEasy(
       ajaxConfig.list, 
       { cid: this.props.params.cid, p: this.state.page },
       function(result) {
@@ -35,7 +36,8 @@ const Beauty = React.createClass({
             cname: result.cname,
             cid: result.cid,
             bid: result.bid,
-            beautylist: result.data 
+            beautylist: result.data.content,
+            navlist: result.data.subChannel
           });
         }
       }
@@ -50,28 +52,30 @@ const Beauty = React.createClass({
     }
   },
   render() {
-    let navNode = this.navComponent(navConfig.waterfallNav);
     return (
       <div id="beauty" className="full-height">
-        <HeaderBar cname={ this.state.cname } />
+        <HeaderBar cname={this.state.cname} />
         <nav className="beauty-nav clearfix">
           <ul className="clearfix">
-            { navNode }
+            {this.getNav()}
           </ul>
         </nav>
-        <Gallery ref="Gallery" elements={ this.state.beautylist } />
+        <Gallery ref="Gallery" elements={this.state.beautylist} handleClickFn={this.handleClick} />
+        <BeautyImg elements={this.state.beautylist} style={{display:'none'}} />
       </div>
     );
   },
-  navComponent(navs) {
-    return navs.map(nav => {
-      let className = nav.cid == this.props.params.cid ? "on" : "";
-      return (
-        <li key={nav.cid} className={ className }>
-          <Link to={`/waterfall/${nav.cid}`}>{ nav.cname }</Link>
-        </li>
-      );
-    });
+  getNav() {
+    if (this.state.navlist.length > 0) {
+      return this.state.navlist.map(nav => {
+        let className = nav.id == this.props.params.cid ? "on" : "";
+        return (
+          <li key={nav.id} className={className}>
+            <Link to={`/waterfall/${nav.id}`}>{nav.name}</Link>
+          </li>
+        );
+      });
+    }
   },
   getMoreData() {
     let _this = this;
@@ -85,11 +89,15 @@ const Beauty = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            beautylist: beautylist.concat(result.data)
+            beautylist: beautylist.concat(result.data.content)
           });
         }
       }
     );
+  },
+  handleClick(index) {
+    // console.log(index)
+    slideImg.init(index, this.getMoreData.bind(this))
   }
 });
 

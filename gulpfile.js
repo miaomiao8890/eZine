@@ -17,7 +17,7 @@ var paths = {
 
 gulp.task('js', function() {
   browserify({
-      entries: ['src/app/render.js'],
+      entries: ['src/app/render.jsx'],
       transform: [babelify,reactify]
     })
     .bundle()

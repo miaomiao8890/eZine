@@ -30,15 +30,22 @@ const LightListItem = React.createClass({
     return (
       
       <li className="light-item">
-        <div className="light-info">
-          <p className="light-title">{ this.props.data.authorName }</p>
-          <p className="light-context">{ this.props.data.context }</p>
-          { this.getImgComponent(this.props.data.thumbnailPic) }
-          <p className="light-bottom">
-            <span>{ this.props.data.createDateStr }</span>
-            <span className="light-author">{ this.props.data.authorName }</span>
-          </p>
-        </div>
+        <Link to={`/detail/`} query={{ 
+          cid: this.props.cid, 
+          bid: this.props.bid, 
+          oid: this.props.data.objectId,
+          viewType: 'light'
+        }} >
+          <div className="light-info">
+            <p className="light-title">{ this.props.data.authorName }</p>
+            <p className="light-context">{ this.props.data.context }</p>
+            {this.getImgComponent(this.props.data.thumbnailPic)}
+            <p className="light-bottom">
+              <span className="light-author">{ this.props.data.authorName }</span>
+              <span>{ this.props.data.createDateStr }</span>
+            </p>
+          </div>
+        </Link>
       </li>
     );
   },

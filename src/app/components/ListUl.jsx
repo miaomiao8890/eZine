@@ -6,15 +6,12 @@ import ListItem from './ListItem.jsx';
 const ListUl = React.createClass({
   render() {
     let newsNodes = this.props.newslist.map(news => (
-      <ListItem key={ news.objectId } data={ news } />
+      <ListItem key={news.objectId} data={news} cid={this.props.cid} bid={this.props.bid}/>
     ));
     return (
-      <div className="news-box">
-        <ul className="news-list">
-          { newsNodes }
-        </ul>
-        <div className="more">页面加载中...</div>
-      </div>
+      <ul className="news-list">
+        { newsNodes }
+      </ul>
     );
   }
 });

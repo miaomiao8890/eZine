@@ -18,7 +18,7 @@ const ListStore = Reflux.createStore({
       ajaxConfig.list, 
       { cid: cid, p: 1 },
       function(result) {
-        _this.trigger(result.data, result.cname, 1, false);
+        _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false);
       }
     );
   },
@@ -28,7 +28,7 @@ const ListStore = Reflux.createStore({
       ajaxConfig.list, 
       { cid: cid, p: page },
       function(result) {
-        _this.trigger(oldList.concat(result.data), result.cname, page, false);
+        _this.trigger(oldList.concat(result.data.content), result.data.subChannel, result.cname, page, false);
       }
     );
   },

@@ -15,7 +15,12 @@ import HotWordsStore from '../stores/HotWordsStore';
 
 const List = React.createClass({
   
-  mixins: [AjaxMixin, ScrollMixin, Reflux.connect(HotWordsStore, 'hotwords'), Reflux.listenTo(HotWordsStore, 'onStatusChange')],
+  mixins: [
+    AjaxMixin, 
+    ScrollMixin, 
+    Reflux.connect(HotWordsStore, 'hotwords'), 
+    Reflux.listenTo(HotWordsStore, 'onStatusChange')
+  ],
 
   getInitialState() {
     return {
@@ -29,7 +34,6 @@ const List = React.createClass({
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
-
     let _this = this;
     let _data = {};
     
@@ -44,7 +48,8 @@ const List = React.createClass({
           { cid: _this.props.params.cid, p: _this.state.page },
           function(result) {
             _data.cname = result.cname;
-            _data.newslist = result.data;
+            _data.newslist = result.data.content;
+            _data.bid = result.bid;
             _this.setState(_data);
           }
         );
@@ -55,10 +60,16 @@ const List = React.createClass({
   render() {
     return (
       <div id="list" className="full-height">
-        <HeaderBar cname={ this.state.cname } />
-        <SlideBar />
-        <HotWords hotwordslist={ this.state.hotwordslist } handleChangeFn={ this.handleChange } />
-        <ListUl newslist={ this.state.newslist } />
+        <HeaderBar cname={this.state.cname} />
+        <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />
+        <div className="news-box">
+          <ListUl 
+            newslist={this.state.newslist} 
+            cid={this.props.params.cid} 
+            bid={this.state.bid}
+          />
+          <div className="more">页面加载中...</div>
+        </div>
       </div>
     );
   },
@@ -74,7 +85,7 @@ const List = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            newslist: newslist.concat(result.data)
+            newslist: newslist.concat(result.data.content)
           });
         }
       }
@@ -86,7 +97,9 @@ const List = React.createClass({
     this.setState({hotwordsGroup: _group});
   },
   onStatusChange(list) {
-    this.setState({hotwordslist: list});
+    if (this.isMounted()) {
+      this.setState({hotwordslist: list});
+    }
   },
 });
 

@@ -2,36 +2,36 @@
 
 import Reflux from 'reflux';
 import ajax from 'ajax-easy';
-import ListAction from '../actions/ListAction';
+import DetailAction from '../actions/DetailAction';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
 
-const ListStore = Reflux.createStore({
+const DetailStore = Reflux.createStore({
 
-  listenables: [ListAction],
+  listenables: [DetailAction],
 
   mixins: [AjaxMixin],
 
-  onGetAll(cid) {
+  onGetInfo(cid, bid, oid) {
     let _this = this;
+    let _data = {};
     this.getAjaxData(
-      ajaxConfig.list, 
-      { cid: cid, p: 1 },
+      ajaxConfig.detail, 
+      { cid: cid, bid: bid, oid: oid },
       function(result) {
-        _this.trigger(result.data, result.cname, 1, false);
+        _data.data = result.data;
+        // _this.trigger(result.data);
+        _this.getAjaxData(
+          ajaxConfig.hotwords, 
+          { group: 1 },
+          function(result) {
+            _data.hotwordslist = result.data.list;
+            _this.trigger(_data);
+          }
+        )
       }
     );
-  },
-  onGetMore(cid, page, oldList){
-    let _this = this;
-    this.getAjaxData(
-      ajaxConfig.list, 
-      { cid: cid, p: page },
-      function(result) {
-        _this.trigger(oldList.concat(result.data), result.cname, page, false);
-      }
-    );
-  },
+  }
 })
 
-export default ListStore;
+export default DetailStore;

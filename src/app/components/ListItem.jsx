@@ -14,7 +14,7 @@ const ListItem = React.createClass({
     if (this.props.data.thumbnailPic) {
       this.setState({ 
         style: {
-          "margin-right": "6.7325rem"
+          marginRight: "6.7325rem"
         }
       });
     }
@@ -25,18 +25,21 @@ const ListItem = React.createClass({
     }
   },
   render() {
-    let data = this.props.data;
     // console.log(this.props.data)
     return (
-      
       <li className="news-item clearfix">
-        <Link to={`/detail/`} params={ {cid:1,bid:2} }>
-          { this.getImgComponent(this.props.data.thumbnailPic) }
-          <div className="news-info" style={ this.state.style }>
-            { this.getTitleComponent(this.props.data.title) }
+        <Link to={`/detail/`} query={{ 
+          cid: this.props.cid, 
+          bid: this.props.bid, 
+          oid: this.props.data.objectId,
+          viewType: 'default'
+        }} >
+          {this.getImgComponent(this.props.data.thumbnailPic)}
+          <div className="news-info" style={this.state.style}>
+            {this.getTitleComponent(this.props.data.title)}
             <p className="news-bottom">
-              <span>{ this.props.data.createDateStr }</span>
-              <span className="news-author">{ this.props.data.authorName }</span>
+              <span className="news-author">{this.props.data.authorName}</span>
+              <span>{this.props.data.createDateStr}</span>
             </p>
           </div>
         </Link>
@@ -46,7 +49,7 @@ const ListItem = React.createClass({
   getImgComponent(thumbnailPic) {
     let thumbnailPicDom;
     if (thumbnailPic) {
-      thumbnailPicDom = <img src={ thumbnailPic } />
+      thumbnailPicDom = <img src={thumbnailPic} />
     }
     return thumbnailPicDom;
   },

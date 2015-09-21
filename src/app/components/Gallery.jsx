@@ -15,9 +15,9 @@ const Gallery = React.createClass({
     };
   },
   render() {
-    let childElements = this.props.elements.map(element => (
-      <li className="image-element-class">
-        <img src={element.waterfallPic} />
+    let childElements = this.props.elements.map((element, index) => (
+      <li className="image-element-class" data-index={index} data-title={element.title} >
+        <img src={element.waterfallPic} onClick={()=>this.props.handleClickFn(index)} />
       </li>
     ));
 
@@ -32,7 +32,7 @@ const Gallery = React.createClass({
         {childElements}
       </Masonry>
     );
-    }
+  }
 });
 
 export default Gallery;
