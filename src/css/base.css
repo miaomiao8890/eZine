@@ -40,8 +40,8 @@ input:focus{border:0;outline:medium}
 .header-bar{width: 100%;height: 2.75rem;line-height: 2.75rem;border-bottom: 1px solid #e5e5e5;background-color: #f8f8f8;color: #3e3e3e;font-size: 1rem; position: relative;text-indent: 3.75rem;}
 .header-bar .back-btn{position: absolute;display: block;width: 3rem;height: 2.75rem;left: 0;top: 0;background: url(../images/icons-arrowleft.png) center no-repeat;background-size: 1rem 1rem;cursor: pointer;}
 .header-bar .header-right-btn{width: 2.8125rem;height: 2.75rem; position: absolute;display: block;cursor: pointer;background: url(../images/icons-share.png) center no-repeat;right: 0px;top: 0;background-size: 1.08rem .9rem;}
-.slide-bar{width: 100%;height: 12.5rem;}
-.slide-bar img{height: 12.5rem;}
+.special-subject{width: 100%;height: 12.5rem;border-bottom: 1px solid #e5e5e5;}
+.special-subject img{width:100%;height: 12.5rem;}
 .hot-words{padding: 0 .8125rem;background-color: #fff;border-bottom: 1px solid #e5e5e5;color: #404040;font-size: .875rem;}
 #listdetail .hot-words{margin-top: .625rem;}
 .hot-words .hot-words-header{width: 100%;height: 2.5rem;line-height: 2.5rem;border-bottom: 1px solid #e5e5e5;position: relative;}
@@ -54,6 +54,7 @@ input:focus{border:0;outline:medium}
 .news-item{padding: .8125rem 0;border-bottom: 1px solid #e5e5e5;}
 /*.news-item:last-child{border-bottom: none;}*/
 .news-item a{color: #000;}
+.news-item a:visited{color: #757575!important;}
 .news-item img{float: right;margin-left: .8125rem;width: 5.92rem;height: 4.21rem;}
 .news-item .news-info{min-height: 4.21rem;position: relative;overflow: hidden;max-height: 6rem;}
 .news-item .news-info .news-title{padding-bottom: 1.6875rem;font-size: 1.0625rem;max-height: 6rem;overflow: hidden;}
@@ -62,6 +63,7 @@ input:focus{border:0;outline:medium}
 .news-item .news-info .news-bottom span{margin-right: .625rem;}
 .news-item .news-info .news-bottom .news-author{color: #42a5f5;}
 .news-item.visited{color: #757575!important;}
+.subject-type6{width: 100%;height: 2.25rem;line-height: 2.25rem;background-color: #f1f1f1;border-bottom: 1px solid #e5e5e5;border-top: 1px solid #e5e5e5;margin-top: -1px;margin-left: -.8125rem;padding:0 .8125rem;font-size: .875rem;color: #797979;}
 .more{width: 100%;height: 3.125rem;line-height: 3.125rem;font-size: .9375rem;color: #737373;text-align: center;background-color: #fff;}
 /* 消息详情页 */
 .news-detail-box{padding: .8125rem;background-color: #fff;/*min-height: 500px;*/border-bottom: 1px solid #e5e5e5;}
@@ -81,7 +83,28 @@ input:focus{border:0;outline:medium}
 .recommend-list{padding:0 .8125rem;}
 .recommend-list .news-list{padding:0;}
 .bottom-nav{padding: .8125rem;background-color: #fff;border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;}
-.bottom-nav ul li{float: left;width: 20%;height: 3.75rem;text-align: center;line-height: 4rem;background: url(../images/icons-init-loading.png) no-repeat;}
+.bottom-nav ul li{float: left;width: 20%;height: 3.75rem;text-align: center;line-height: 5rem;font-size: .75rem;color: #4d4d4d; background: url(../images/icon_bottom.png) no-repeat;background-size: 1.4583rem 70.83rem;}
+.bottom-nav ul li a{color: #4d4d4d;}
+.bottom-nav .nav-icon-news{background-position: 1.5rem .8125rem;}
+.bottom-nav .nav-icon-stuff{background-position: 1.5625rem -3rem;}
+.bottom-nav .nav-icon-beauty{background-position: 1.625rem -6.5625rem;}
+.bottom-nav .nav-icon-finance{background-position: 1.625rem -9.9375rem;}
+.bottom-nav .nav-icon-society{background-position: 1.6875rem -13.5rem;}
+.bottom-nav .nav-icon-entertainment{background-position: 1.625rem -16.875rem;}
+.bottom-nav .nav-icon-sexes{background-position: 1.5625rem -20.375rem;}
+.bottom-nav .nav-icon-sport{background-position: 1.625rem -23.5625rem;}
+.bottom-nav .nav-icon-exposure{background-position: 1.625rem -27.25rem;}
+.bottom-nav .nav-icon-comic{background-position: 1.5625rem -30.5rem;}
+.bottom-nav .nav-icon-sexy{background-position: 1.375rem -34.5rem;}
+.bottom-nav .nav-icon-toilet{background-position: 1.5rem -38.625rem;}
+.bottom-nav .nav-icon-selfie{background-position: 1.5625rem -42.375rem;}
+.bottom-nav .nav-icon-emotion{background-position: 1.5625rem -46.125rem;}
+.bottom-nav .nav-icon-private{background-position: 1.4375rem -49.75rem;}
+.bottom-nav .nav-icon-cars{background-position: 1.375rem -53.3125rem;}
+.bottom-nav .nav-icon-military{background-position: 1.5rem -57.25rem;}
+.bottom-nav .nav-icon-figure{background-position: 1.5rem -60.9375rem;}
+.bottom-nav .nav-icon-technology{background-position: 1.5rem -64.75rem;}
+.bottom-nav .nav-icon-joke{background-position: 1.5625rem -69.1875rem;}
 .footer-bar{margin: .625rem 0;padding:.83rem 0;width: 100%;background-color: #fff;border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;}
 .footer-bar ul li{width: 50%;height: 1.146rem;line-height: 1.146rem;float: left;cursor: pointer;font-size: .9375rem;text-align: center; box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
 .footer-bar ul li a{color: #404040}

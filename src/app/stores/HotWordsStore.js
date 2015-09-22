@@ -1,7 +1,6 @@
 'use strict';
 
 import Reflux from 'reflux';
-import ajax from 'ajax-easy';
 import HotWordsAction from '../actions/HotWordsAction';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';

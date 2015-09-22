@@ -20,7 +20,7 @@ const LightList = React.createClass({
       bid: null,
       page: 1,
       list: [],
-      navlist: []
+      navlist: [],
     };
   },
   componentDidMount() {
@@ -31,7 +31,7 @@ const LightList = React.createClass({
     let newCid = nextProps.params.cid;
 
     if (oldCid !== newCid) {
-      window.location.reload();
+      ListAction.getAll(newCid);
     }
   },
   render() {
@@ -69,7 +69,6 @@ const LightList = React.createClass({
     let newslist = this.state.list;
 
     ListAction.getMore(this.props.params.cid, _page, this.state.list);
-
   },
   onStatusChange(data, subChannel, cname, bid, page, isLock) {
     if (this.isMounted()) {

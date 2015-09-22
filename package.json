@@ -4,7 +4,7 @@
   "description": "dev",
   "main": "render.js",
   "scripts": {
-    "build": "browserify src/app/render.js > public/build/bundle.js",
+    "build": "browserify src/app/render.jsx > public/build/bundle.js",
     "watch": "watchify --debug src/app/render.jsx -o public/build/bundle.js"
   },
   "keywords": [

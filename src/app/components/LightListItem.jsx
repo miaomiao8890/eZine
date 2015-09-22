@@ -25,36 +25,46 @@ const LightListItem = React.createClass({
     }
   },
   render() {
-    let data = this.props.data;
-    // console.log(this.props.data)
-    return (
-      
-      <li className="light-item">
-        <Link to={`/detail/`} query={{ 
-          cid: this.props.cid, 
-          bid: this.props.bid, 
-          oid: this.props.data.objectId,
-          viewType: 'light'
-        }} >
-          <div className="light-info">
-            <p className="light-title">{ this.props.data.authorName }</p>
-            <p className="light-context">{ this.props.data.context }</p>
-            {this.getImgComponent(this.props.data.thumbnailPic)}
-            <p className="light-bottom">
-              <span className="light-author">{ this.props.data.authorName }</span>
-              <span>{ this.props.data.createDateStr }</span>
-            </p>
-          </div>
-        </Link>
-      </li>
-    );
-  },
-  getImgComponent(thumbnailPic) {
-    let thumbnailPicDom;
-    if (thumbnailPic) {
-      thumbnailPicDom = <img src={ thumbnailPic } />
+    let data = this.props.data
+            ,thumbnailPicNode
+            ,url
+            ,context
+          ;
+    if (this.props.data.thumbnailPic) {
+      thumbnailPicNode = <img src={this.props.data.thumbnailPic} />
     }
-    return thumbnailPicDom;
+    context = (
+      <div className="light-info">
+        <p className="light-context">{this.props.data.context}</p>
+        {thumbnailPicNode}
+        <p className="light-bottom">
+          <span className="light-author">{this.props.data.authorName}</span>
+          <span>{this.props.data.createDateStr}</span>
+        </p>
+      </div>
+    );
+    if (this.props.data.sourceType == 3 || this.props.data.sourceType == 4) {
+      return (
+        <li className="light-item">
+          <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url}>
+            {context}
+          </a>
+        </li>
+      );
+    } else {
+      return (
+        <li className="light-item">
+          <Link to={`/detail/`} query={{ 
+            cid: this.props.cid, 
+            bid: this.props.bid, 
+            oid: this.props.data.objectId,
+            viewType: 'light'
+          }} >
+            {context}
+          </Link>
+        </li>
+      );
+    }
   }
 });
 

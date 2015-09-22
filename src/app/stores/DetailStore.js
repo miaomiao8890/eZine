@@ -1,7 +1,6 @@
 'use strict';
 
 import Reflux from 'reflux';
-import ajax from 'ajax-easy';
 import DetailAction from '../actions/DetailAction';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';

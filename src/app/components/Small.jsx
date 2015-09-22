@@ -4,7 +4,6 @@ import React from 'react';
 import Reflux from 'reflux';
 import { Link } from 'react-router';
 import HeaderBar from './HeaderBar.jsx';
-import HotWords from './HotWords.jsx';
 import ListUl from './ListUl.jsx';
 
 import ScrollMixin from '../mixins/ScrollMixin.js';
@@ -46,7 +45,7 @@ const List = React.createClass({
         _data.hotwordslist = result.data.list;
         _this.getAjaxData(
           ajaxConfig.list, 
-          { cid: _this.props.params.cid, p: 1 },
+          { cid: _this.props.params.cid, p: _this.state.page },
           function(result) {
             let newlist = _this.checkSubject(result.data.content)
             _data.cname = result.cname;
@@ -61,12 +60,9 @@ const List = React.createClass({
   render() {
     let specialSubjectNode;
     if (this.state.subject) {
-      let url = "/go.do?st=7&url="+this.state.subject.url+"&trace=list_"+this.props.params.cid;
       specialSubjectNode = (
         <div className="special-subject">
-          <a href={url}>
-            <img src={this.state.subject.thumbnailPic} />
-          </a>
+          <img src={this.state.subject.thumbnailPic} />
         </div>
       );
     }
@@ -74,7 +70,6 @@ const List = React.createClass({
       <div id="list" className="full-height">
         <HeaderBar cname={this.state.cname} />
         {specialSubjectNode}
-        <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />
         <div className="news-box">
           <ListUl 
             newslist={this.state.newslist} 

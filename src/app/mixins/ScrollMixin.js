@@ -16,6 +16,9 @@ let ScrollMixin = {
         });
         this.getMoreData();
       }
+  },
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 };
 export default ScrollMixin;

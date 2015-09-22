@@ -25,26 +25,38 @@ const ListItem = React.createClass({
     }
   },
   render() {
-    // console.log(this.props.data)
-    return (
-      <li className="news-item clearfix">
-        <Link to={`/detail/`} query={{ 
-          cid: this.props.cid, 
-          bid: this.props.bid, 
-          oid: this.props.data.objectId,
-          viewType: 'default'
-        }} >
-          {this.getImgComponent(this.props.data.thumbnailPic)}
-          <div className="news-info" style={this.state.style}>
-            {this.getTitleComponent(this.props.data.title)}
-            <p className="news-bottom">
-              <span className="news-author">{this.props.data.authorName}</span>
-              <span>{this.props.data.createDateStr}</span>
-            </p>
-          </div>
-        </Link>
-      </li>
+    let context = (
+      {this.getImgComponent(this.props.data.thumbnailPic)}
+      <div className="news-info" style={this.state.style}>
+        {this.getTitleComponent(this.props.data.title)}
+        <p className="news-bottom">
+          <span className="news-author">{this.props.data.authorName}</span>
+          <span>{this.props.data.createDateStr}</span>
+        </p>
+      </div>
     );
+    if (this.props.data.sourceType == 3 || this.props.data.sourceType == 4) {
+      return (
+        <li className="news-item clearfix">
+          <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url}>
+            {context}
+          </a>
+        </li>
+      );
+    } else {
+      return (
+        <li className="news-item clearfix">
+          <Link to={`/detail/`} query={{ 
+            cid: this.props.cid, 
+            bid: this.props.bid, 
+            oid: this.props.data.objectId,
+            viewType: 'default'
+          }} >
+            {context}
+          </Link>
+        </li>
+      );
+    }
   },
   getImgComponent(thumbnailPic) {
     let thumbnailPicDom;
@@ -56,7 +68,7 @@ const ListItem = React.createClass({
   getTitleComponent(title) {
     let titleDom;
     if (!title) {
-      titleDom = <p className="news-context">{ this.props.data.context }</p>
+      titleDom = <p className="news-context">{ this.props.data.ttlContent }</p>
     } else {
       titleDom = <p className="news-title">{ this.props.data.title }</p>
     }

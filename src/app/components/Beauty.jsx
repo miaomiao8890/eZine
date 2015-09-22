@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Reflux from 'reflux';
 import { Link } from 'react-router';
 
 import HeaderBar from './HeaderBar.jsx';
@@ -9,51 +10,62 @@ import BeautyImg from './BeautyImg.jsx';
 
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
+import ListAction from '../actions/ListAction';
+import ListStore from '../stores/ListStore';
 import ajaxConfig from '../util/ajaxConfig.js';
 import slideImg from '../util/slideImg.js';
 
 const Beauty = React.createClass({
   
-  mixins: [AjaxMixin, ScrollMixin],
+  mixins: [
+    AjaxMixin, 
+    ScrollMixin, 
+    Reflux.connect(ListStore, 'list'), 
+    Reflux.listenTo(ListStore, 'onStatusChange')
+  ],
 
   getInitialState() {
     return {
+      cname: null,
       bid: null,
       cid: null,
       page: 1,
       beautylist: [],
       navlist: [],
+      boxStyle: {
+        display: 'none'
+      }
     };
   },
   componentDidMount() {
-    let _this = this;
-    this.getAjaxDataByEasy(
-      ajaxConfig.list, 
-      { cid: this.props.params.cid, p: this.state.page },
-      function(result) {
-        if (_this.isMounted()) {
-          _this.setState({
-            cname: result.cname,
-            cid: result.cid,
-            bid: result.bid,
-            beautylist: result.data.content,
-            navlist: result.data.subChannel
-          });
-        }
-      }
-    );
+    ListAction.getAll(this.props.params.cid);
+    // this.getAjaxDataByEasy(
+    //   ajaxConfig.list, 
+    //   { cid: this.props.params.cid, p: this.state.page },
+    //   function(result) {
+    //     if (_this.isMounted()) {
+    //       _this.setState({
+    //         cname: result.cname,
+    //         cid: result.cid,
+    //         bid: result.bid,
+    //         beautylist: result.data.content,
+    //         navlist: result.data.subChannel
+    //       });
+    //     }
+    //   }
+    // );
   },
   componentWillReceiveProps(nextProps) {
     let oldCid = this.props.params.cid;
     let newCid = nextProps.params.cid;
 
     if (oldCid !== newCid) {
-      window.location.reload();
+      ListAction.getAll(newCid);
     }
   },
   render() {
     return (
-      <div id="beauty" className="full-height">
+      <div id="beauty" className="full-height" style={this.state.boxStyle}>
         <HeaderBar cname={this.state.cname} />
         <nav className="beauty-nav clearfix">
           <ul className="clearfix">
@@ -83,7 +95,7 @@ const Beauty = React.createClass({
     let beautylist = this.state.beautylist;
     this.getAjaxData(
       ajaxConfig.list, 
-      { cid: this.state.cid, p: _page },
+      { cid: this.props.params.cid, p: _page },
       function(result) {
         if (_this.isMounted()) {
           _this.setState({
@@ -94,6 +106,21 @@ const Beauty = React.createClass({
         }
       }
     );
+  },
+  onStatusChange(data, subChannel, cname, bid, page, isLock) {
+    if (this.isMounted()) {
+      this.setState({
+        isLock: isLock,
+        cname: cname,
+        bid: bid,
+        beautylist: data,
+        page: page,
+        navlist: subChannel,
+        boxStyle: {
+          display: 'block'
+        }
+      });
+    }
   },
   handleClick(index) {
     // console.log(index)

@@ -59,9 +59,26 @@ const Detail = React.createClass({
     }
   },
   render() {
-    let imgContent;
+    let imgContent,recommendNode,detailUrlNode;
     if (this.props.location.query.viewType) {
       imgContent = <img className="light-img" src={this.state.data.content.current.middlePic} />
+    }
+    if (this.state.data.recommend) {
+      recommendNode = (
+        <div className="recommend mt10">
+          <h2 className="recommend-title">猜你喜欢</h2>
+          <div className="recommend-list">
+            <ListUl 
+              newslist={this.state.data.recommend.cotnentBases} 
+              cid={this.state.data.cid} 
+              bid={this.state.data.bid}
+            />
+          </div>
+        </div>
+      )
+    }
+    if (this.state.data.content.current.sourceType != 1) {
+      detailUrlNode = <a href={this.state.data.content.current.url} className="news-detail-url">查看原网页</a>
     }
     return (
       <div id="listdetail" className="full-height">
@@ -75,7 +92,7 @@ const Detail = React.createClass({
           {imgContent}
           <div className="news-detail-bottom">
             <span className="news-detail-time">{this.state.data.content.current.authorName}</span>
-            <a href={this.state.data.content.current.url} className="news-detail-url">查看原网页</a>
+            {detailUrlNode}
           </div>
         </div>
         <div className="news-detail-beside">
@@ -83,16 +100,31 @@ const Detail = React.createClass({
           {this.getNextPrev(this.state.data.content.next, "下一条")}
         </div>
         <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />
-        <div className="recommend mt10">
-          <h2 className="recommend-title">猜你喜欢</h2>
-          <div className="recommend-list">
-            <ListUl 
-              newslist={this.state.data.recommend.cotnentBases} 
-              cid={this.state.data.cid} 
-              bid={this.state.data.bid}
-            />
-          </div>
-        </div>
+        
+        <div className="bottom-nav mt10">
+        <ul className="clearfix">
+          <li className="nav-icon-news"><Link to={`/news/55`}>头条</Link></li>
+          <li className="nav-icon-stuff"><Link to={`/light/59`}>Hi段子</Link></li>
+          <li className="nav-icon-beauty"><Link to={`/waterfall/19`}>美女</Link></li>
+          <li className="nav-icon-finance"><Link to={`/news/16`}>财经</Link></li>
+          <li className="nav-icon-society"><Link to={`/news/15`}>社会</Link></li>
+          <li className="nav-icon-entertainment"><Link to={`/news/21`}>娱乐</Link></li>
+          <li className="nav-icon-sexes"><Link to={`/news/29`}>两性</Link></li>
+          <li className="nav-icon-sport"><Link to={`/news/18`}>体育</Link></li>
+          <li className="nav-icon-exposure"><Link to={`/light/120`}>曝光台</Link></li>
+          <li className="nav-icon-comic"><Link to={`/light/83`}>暴漫</Link></li>
+          <li className="nav-icon-sexy"><Link to={`/waterfall/24`}>性感</Link></li>
+          <li className="nav-icon-toilet"><Link to={`/light/134`}>厕所读物</Link></li>
+          <li className="nav-icon-selfie"><Link to={`/light/110`}>自拍</Link></li>
+          <li className="nav-icon-emotion"><Link to={`/light/25`}>情感</Link></li>
+          <li className="nav-icon-private"><Link to={`/light/75`}>私密话</Link></li>
+          <li className="nav-icon-cars"><Link to={`/light/131`}>汽车</Link></li>
+          <li className="nav-icon-military"><Link to={`/light/52`}>军事</Link></li>
+          <li className="nav-icon-figure"><Link to={`/waterfall/26`}>萌图</Link></li>
+          <li className="nav-icon-technology"><Link to={`/news/17`}>科技</Link></li>
+          <li className="nav-icon-joke"><Link to={`/light/20`}>笑话</Link></li>
+        </ul>
+      </div>
         <footer className="footer-bar">
           <ul className="clearfix">
             <li><Link to={`/feedback`}>意见反馈</Link></li>
