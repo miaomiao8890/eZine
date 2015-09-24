@@ -10,15 +10,22 @@ const CopyRight = React.createClass({
       <div id="copyright" className="full-height">
         <HeaderBar cname="版权声明" />
         <div className="copyright-content">
-          <p>1、本网所有内容，凡注明"来源：搜狐××（频道）"的所有文字、图片和音视频资料，版权均属搜狐公司所有，任何媒体、网站或个人未经本网协议授权不得转载、链接、转贴或以其他方式复制发布/发表。已经本网协议授权的媒体、网站，在下载使用时必须注明"稿件来源：搜狐网"，违者本网将依法追究责任。</p><br/>
-          <p>凡本网注明"来源：XXX "的文/图等稿件，本网转载出于传递更多信息之目的，并不意味着赞同其观点或证实其内容的真实性</p><br/><br/>
-          <p>2、除注明"来源：搜狐××（频道）"的内容外，本网以下内容亦不可任意转载：</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.本网所指向的非本网内容的相关链接内容； </p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b.已作出不得转载或未经许可不得转载声明的内容； </p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.未由本网署名或本网引用、转载的他人作品等非本网版权内容；</p> 
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d.本网中特有的图形、标志、页面风格、编排方式、程序等； </p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.本网中必须具有特别授权或具有注册用户资格方可知晓的内容；</p> 
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f.其他法律不允许或本网认为不适合转载的内容</p>
+          <p className="clearfix">
+          <span className="copyright-index">一、 </span>
+          <span className="copyright-context">凡本网站注明“来源：xxx（非新鲜事儿或欧朋浏览器）”的作品，均转载自其它媒体或网站，作品版权归原创作者所有,本站不承担此类稿件的任何侵权责任。</span>
+        </p><br/>
+        <p className="clearfix">
+          <span className="copyright-index">二、 </span>
+          <span className="copyright-context">鉴于本网站转载稿件部分来源于搜索引擎，抓取的结果可能与原列明的标题和描述不符，从而可能导致稿件被错误标注或识别，凡本网站用户发现错误标注或识别的，可与本网站联系，待本网站核实后将予以及时处理。</span>
+        </p><br/>
+        <p className="clearfix">
+          <span className="copyright-index">三、 </span>
+          <span className="copyright-context">本网站转载之目的仅在于传递更多信息，为公众提供免费服务，如转载稿涉及版权等问题，请作者在两周之内来函联系，我们将协调给予处理（或删除）。如稿件版权单位或个人不想在本网站发布，可与本网站联系，本网站视情况撤除。</span>
+        </p><br/>
+        <p className="clearfix">
+          <span className="copyright-index">四、 </span>
+          <span className="copyright-context">本网站所载之信息仅为网民提供参考之用，文章观点不代表本站立场，其真实性由作者或稿源方负责，本站信息接受广大网民的监督、投诉和批评。</span>
+        </p>
         </div>
       </div>
     );

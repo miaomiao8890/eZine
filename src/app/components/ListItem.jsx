@@ -26,8 +26,7 @@ const ListItem = React.createClass({
   },
   render() {
     let context = (
-      {this.getImgComponent(this.props.data.thumbnailPic)}
-      <div className="news-info" style={this.state.style}>
+      <div className="news-info">
         {this.getTitleComponent(this.props.data.title)}
         <p className="news-bottom">
           <span className="news-author">{this.props.data.authorName}</span>
@@ -39,6 +38,7 @@ const ListItem = React.createClass({
       return (
         <li className="news-item clearfix">
           <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url}>
+            {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}
           </a>
         </li>
@@ -50,8 +50,9 @@ const ListItem = React.createClass({
             cid: this.props.cid, 
             bid: this.props.bid, 
             oid: this.props.data.objectId,
-            viewType: 'default'
+            viewType: 'news'
           }} >
+            {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}
           </Link>
         </li>

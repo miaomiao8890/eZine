@@ -1,7 +1,5 @@
 'use strict';
 
-import ajax from 'ajax-easy';
-
 let AjaxMixin = {
   getAjaxData(url, data, callback) {
     var geturl = this.getUrl(url, data);
@@ -16,18 +14,6 @@ let AjaxMixin = {
     };
     xhr.open("get", geturl, true);
     xhr.send(null);
-  },
-  getAjaxDataByEasy(url, data, callback) {
-    ajax({
-      url: url,
-      data: data,
-      success(result) {
-        callback(result);
-      },
-      fail(result) {
-        console.log(result)
-      }
-    });
   },
   getUrl(url, data) {
     url += "?";

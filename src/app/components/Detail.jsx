@@ -60,7 +60,7 @@ const Detail = React.createClass({
   },
   render() {
     let imgContent,recommendNode,detailUrlNode;
-    if (this.props.location.query.viewType) {
+    if (this.props.location.query.viewType == 'light') {
       imgContent = <img className="light-img" src={this.state.data.content.current.middlePic} />
     }
     if (this.state.data.recommend) {
@@ -83,8 +83,10 @@ const Detail = React.createClass({
     return (
       <div id="listdetail" className="full-height">
         <header className="header-bar">
-          <i className="back-btn" onClick={this.handleBackBtn}></i>
-          <i className="header-right-btn"></i>
+          <i className="back-btn">
+            <Link to={`/${this.props.location.query.viewType}/${this.state.data.cid}`}></Link>
+          </i>
+          <i className="header-right-btn" onClick={this.handleShare}></i>
         </header>
         <div className="news-detail-box">
           <h1 className="news-detail-title">{this.state.data.content.current.title}</h1>
@@ -100,7 +102,7 @@ const Detail = React.createClass({
           {this.getNextPrev(this.state.data.content.next, "下一条")}
         </div>
         <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />
-        
+        {recommendNode}
         <div className="bottom-nav mt10">
         <ul className="clearfix">
           <li className="nav-icon-news"><Link to={`/news/55`}>头条</Link></li>
@@ -134,9 +136,6 @@ const Detail = React.createClass({
       </div>
     );
   },
-  handleBackBtn() {
-    window.history.go(-1);
-  },
   onStatusChange(data) {
     if (this.isMounted()) {
       this.setState({
@@ -151,11 +150,17 @@ const Detail = React.createClass({
   getNextPrev(data, type) {
     let besideNode;
     if (data) {
-      besideNode = <Link to={`/detail/`} query={{ 
-          cid: this.state.data.cid, 
-          bid: this.state.data.bid, 
-          oid: data.objectId 
-        }} className="news-detail-side">{ type + "：" + data.title }</Link>
+      besideNode = (
+        // <Link to={`/detail/`} query={{ 
+        //   cid: this.state.data.cid, 
+        //   bid: this.state.data.bid, 
+        //   oid: data.objectId,
+        //   viewType: this.props.location.query.viewType
+        // }} className="news-detail-side">{ type + "：" + data.title }</Link>
+        <a className="news-detail-side" href={"/dev3/app.html#/detail/?cid="+this.state.data.cid+"&bid="+this.state.data.bid+"&oid="+data.objectId+"&viewType="+this.props.location.query.viewType}>
+          { type + "：" + data.title }
+        </a>
+      );
     }
     return besideNode;
   },
@@ -163,6 +168,12 @@ const Detail = React.createClass({
     let _group = ++this.state.hotwordsGroup;
     HotWordsAction.changeItem(_group);
     this.setState({hotwordsGroup: _group});
+  },
+  handleShare() {
+    let title = "title",
+        content = "content",
+        url = "url";
+    // ShareInPage.nativeShare(\'' . title . '\', \'' . content . ' ' . url . ' @欧朋浏览器\', null, \'' . url . '\');
   },
   onHotWordsStatusChange(list) {
     if (this.isMounted()) {

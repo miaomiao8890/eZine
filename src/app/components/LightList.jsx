@@ -21,6 +21,9 @@ const LightList = React.createClass({
       page: 1,
       list: [],
       navlist: [],
+      morestyle: {
+        display: 'none'
+      }
     };
   },
   componentDidMount() {
@@ -43,11 +46,14 @@ const LightList = React.createClass({
             {this.getNav()}
           </ul>
         </nav>
-        <LightListUl 
-          list={ this.state.list } 
-          cid={this.props.params.cid} 
-          bid={this.state.bid}
-        />
+        <div className="light-box">
+          <LightListUl 
+            list={ this.state.list } 
+            cid={this.props.params.cid} 
+            bid={this.state.bid}
+          />
+        </div>
+        <div className="more" style={this.state.morestyle}>页面加载中...</div>
       </div>
     );
   },
@@ -78,7 +84,10 @@ const LightList = React.createClass({
         bid: bid,
         list: data,
         page: page,
-        navlist: subChannel
+        navlist: subChannel,
+        morestyle: {
+          display: 'none'
+        }
       });
     }
   },

@@ -9,12 +9,9 @@ const LightListUl = React.createClass({
       <LightListItem key={item.objectId} data={item}  cid={this.props.cid} bid={this.props.bid}/>
     ));
     return (
-      <div className="light-box">
-        <ul className="light-list">
-          { lightNodes }
-        </ul>
-        <div className="more">页面加载中...</div>
-      </div>
+      <ul className="light-list">
+        { lightNodes }
+      </ul>
     );
   }
 });

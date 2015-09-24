@@ -29,7 +29,10 @@ const List = React.createClass({
       newslist: [],
       hotwordsGroup: 1,
       hotwordslist: [],
-      subject: null
+      subject: null,
+      morestyle: {
+        display: 'none'
+      }
     };
   },
   componentDidMount() {
@@ -76,7 +79,7 @@ const List = React.createClass({
             cid={this.props.params.cid} 
             bid={this.state.bid}
           />
-          <div className="more">页面加载中...</div>
+          <div className="more" style={this.state.morestyle}>页面加载中...</div>
         </div>
       </div>
     );
@@ -93,16 +96,14 @@ const List = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            newslist: newslist.concat(result.data.content)
+            newslist: newslist.concat(result.data.content),
+            morestyle: {
+              display: 'none'
+            }
           });
         }
       }
     );
-  },
-  handleChange() {
-    let _group = ++this.state.hotwordsGroup;
-    HotWordsAction.changeItem(_group);
-    this.setState({hotwordsGroup: _group});
   },
   onStatusChange(list) {
     if (this.isMounted()) {

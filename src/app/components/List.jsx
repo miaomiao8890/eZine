@@ -30,7 +30,10 @@ const List = React.createClass({
       newslist: [],
       hotwordsGroup: 1,
       hotwordslist: [],
-      subject: null
+      subject: null,
+      morestyle: {
+        display: 'none'
+      }
     };
   },
   componentDidMount() {
@@ -44,6 +47,7 @@ const List = React.createClass({
       { group: this.state.hotwordsGroup },
       function(result) {
         _data.hotwordslist = result.data.list;
+        _data.hotwordsGroup = result.data.nextGroup;
         _this.getAjaxData(
           ajaxConfig.list, 
           { cid: _this.props.params.cid, p: 1 },
@@ -81,7 +85,7 @@ const List = React.createClass({
             cid={this.props.params.cid} 
             bid={this.state.bid}
           />
-          <div className="more">页面加载中...</div>
+          <div className="more" style={this.state.morestyle}>页面加载中...</div>
         </div>
       </div>
     );
@@ -98,20 +102,24 @@ const List = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            newslist: newslist.concat(result.data.content)
+            newslist: newslist.concat(result.data.content),
+            morestyle: {
+              display: 'none'
+            }
           });
         }
       }
     );
   },
   handleChange() {
-    let _group = ++this.state.hotwordsGroup;
-    HotWordsAction.changeItem(_group);
-    this.setState({hotwordsGroup: _group});
+    HotWordsAction.changeItem(this.state.hotwordsGroup);
   },
-  onStatusChange(list) {
+  onStatusChange(data) {
     if (this.isMounted()) {
-      this.setState({hotwordslist: list});
+      this.setState({
+        hotwordslist: data.list,
+        hotwordsGroup: data.nextGroup
+      });
     }
   },
   checkSubject(list) {

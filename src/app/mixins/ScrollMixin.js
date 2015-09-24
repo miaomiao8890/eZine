@@ -12,7 +12,10 @@ let ScrollMixin = {
   handleScroll() {
       if(document.body.scrollTop > document.body.scrollHeight - document.body.offsetHeight - 5 && !this.state.isLock) {
         this.setState({ 
-          isLock: true
+          isLock: true,
+          morestyle: {
+            display: 'block'
+          }
         });
         this.getMoreData();
       }

@@ -3,8 +3,19 @@
 import React from 'react';
 
 import HeaderBar from './HeaderBar.jsx';
+import AjaxMixin from '../mixins/AjaxMixin.js';
+import ajaxConfig from '../util/ajaxConfig.js';
 
 const Feedback = React.createClass({
+
+  mixins: [AjaxMixin],
+
+  getInitialState() {
+    return {
+      textarea: "",
+      wordlength: 0,
+    };
+  },
   render() {
     return (
       <div id="feedback" className="full-height">
@@ -12,9 +23,9 @@ const Feedback = React.createClass({
         <div className="feedback-content">
         <form onSubmit={this.submitHandle}>
           <div className="feedback-textarea">
-            <textarea ref="feedbackContext" id="feedbackContext" cols="30" rows="10"></textarea>
+            <textarea ref="feedbackContext" id="feedbackContext" cols="30" rows="10" onChange={this.handleTextArea} value={this.state.textarea}></textarea>
             <div className="text-var">
-              <span id="in">0</span>/<span id="all">140</span>
+              <span id="in">{this.state.wordlength}</span>/<span id="all">140</span>
             </div>
           </div>
           <div className="feedback-input">
@@ -30,7 +41,30 @@ const Feedback = React.createClass({
     event.preventDefault();
     let feedbackContext = this.refs.feedbackContext.getDOMNode().value;
     let userInfo = this.refs.userInfo.getDOMNode().value;
-  }
+    //submit
+    this.getAjaxData(
+      ajaxConfig.feedback, { 
+        ti: userInfo,
+        fi: feedbackContext
+      },
+      function(result) {
+        console.log('Feedback Success!')
+      }
+    );
+  },
+  handleTextArea() {
+    let value = this.refs.feedbackContext.getDOMNode().value;
+    if (value.length > 140) {
+      this.setState({
+        wordlength: 140,
+      });
+    } else {
+      this.setState({
+        textarea: value,
+        wordlength: value.length,
+      });
+    }
+  },
 });
 
 export default Feedback;

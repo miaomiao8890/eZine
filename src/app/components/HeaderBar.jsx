@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 const HeaderBar = React.createClass({
   handleBackBtn() {
@@ -9,7 +10,9 @@ const HeaderBar = React.createClass({
   render() {
     return (
       <header className="header-bar">
-        <i className="back-btn" onClick={ this.handleBackBtn }></i>{ this.props.cname }
+        <i className="back-btn">
+           <Link to={`/`}></Link>
+        </i>{ this.props.cname }
       </header>
     );
   }
