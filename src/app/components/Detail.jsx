@@ -41,6 +41,9 @@ const Detail = React.createClass({
       },
       hotwordsGroup: 1,
       hotwordslist: [],
+      style: {
+        display: 'none'
+      }
     };
   },
   componentDidMount() {
@@ -58,6 +61,9 @@ const Detail = React.createClass({
       window.location.reload();
     }
   },
+  componentDidUpdate() {
+    this.handleShare();
+  },
   render() {
     let imgContent,recommendNode,detailUrlNode;
     if (this.props.location.query.viewType == 'light') {
@@ -70,8 +76,9 @@ const Detail = React.createClass({
           <div className="recommend-list">
             <ListUl 
               newslist={this.state.data.recommend.cotnentBases} 
-              cid={this.state.data.cid} 
-              bid={this.state.data.bid}
+              cid={this.state.data.recommendId} 
+              bid={this.state.data.recommend.batchId}
+              viewType={this.state.data.recommendViewType}
             />
           </div>
         </div>
@@ -81,15 +88,17 @@ const Detail = React.createClass({
       detailUrlNode = <a href={this.state.data.content.current.url} className="news-detail-url">查看原网页</a>
     }
     return (
-      <div id="listdetail" className="full-height">
+      <div id="listdetail" className="full-height" style={this.state.style}>
         <header className="header-bar">
           <i className="back-btn">
             <Link to={`/${this.props.location.query.viewType}/${this.state.data.cid}`}></Link>
           </i>
-          <i className="header-right-btn" onClick={this.handleShare}></i>
+          <i className="header-right-btn">
+            <a className="share-btn"></a>
+          </i>
         </header>
         <div className="news-detail-box">
-          <h1 className="news-detail-title">{this.state.data.content.current.title}</h1>
+          <h1 className="news-detail-title" ref="detailTitle">{this.state.data.content.current.title}</h1>
           <div className="news-detail-content" dangerouslySetInnerHTML={this.getContext(this.state.data.content.current.context)}></div>
           {imgContent}
           <div className="news-detail-bottom">
@@ -140,7 +149,11 @@ const Detail = React.createClass({
     if (this.isMounted()) {
       this.setState({
         data: data.data,
-        hotwordslist: data.hotwordslist
+        hotwordslist: data.hotwordslist,
+        hotwordsGroup: data.hotwordsGroup,
+        style: {
+          display: 'block'
+        }
       });
     }
   },
@@ -165,19 +178,18 @@ const Detail = React.createClass({
     return besideNode;
   },
   handleChange() {
-    let _group = ++this.state.hotwordsGroup;
-    HotWordsAction.changeItem(_group);
-    this.setState({hotwordsGroup: _group});
+    HotWordsAction.changeItem(this.state.hotwordsGroup);
   },
   handleShare() {
-    let title = "title",
-        content = "content",
-        url = "url";
-    // ShareInPage.nativeShare(\'' . title . '\', \'' . content . ' ' . url . ' @欧朋浏览器\', null, \'' . url . '\');
+    let title = this.refs.detailTitle.getDOMNode().innerHTML;
+    document.querySelector(".share-btn").href="javascript:ShareInPage.nativeShare('"+document.title+"', '"+title+"', '"+null+"', '"+document.URL+"')";
   },
-  onHotWordsStatusChange(list) {
+  onHotWordsStatusChange(data) {
     if (this.isMounted()) {
-      this.setState({hotwordslist: list});
+      this.setState({
+        hotwordslist: data.list,
+        hotwordsGroup: data.nextGroup
+      });
     }
   },
 });

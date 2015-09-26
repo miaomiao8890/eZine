@@ -10,7 +10,7 @@ const Gallery = React.createClass({
   getInitialState() {
     return {
       masonryStyle: {
-        "display": "none"
+        "display": "block"
       }
     };
   },

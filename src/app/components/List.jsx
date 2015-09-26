@@ -38,9 +38,10 @@ const List = React.createClass({
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
+    this.setState({isLock: true});
+
     let _this = this;
     let _data = {};
-    
     //getAll
     this.getAjaxData(
       ajaxConfig.hotwords, 
@@ -56,9 +57,12 @@ const List = React.createClass({
             _data.cname = result.cname;
             _data.newslist = newlist;
             _data.bid = result.bid;
+            _data.isLock = false;
             _this.setState(_data);
           }
         );
+      },function() {
+        console.log('error');
       }
     );
   },
@@ -70,6 +74,12 @@ const List = React.createClass({
         <div className="special-subject">
           <a href={url}>
             <img src={this.state.subject.thumbnailPic} />
+            <div className="subject-bottom">
+              <div className="subject-title">
+                <i>专题</i>
+                <span>{this.state.subject.ttlContent}</span>
+              </div>
+            </div>
           </a>
         </div>
       );
@@ -84,6 +94,7 @@ const List = React.createClass({
             newslist={this.state.newslist} 
             cid={this.props.params.cid} 
             bid={this.state.bid}
+            viewType="news"
           />
           <div className="more" style={this.state.morestyle}>页面加载中...</div>
         </div>
@@ -108,6 +119,13 @@ const List = React.createClass({
             }
           });
         }
+      },
+      function() {
+        _this.setState({
+          morestyle: {
+            display: 'none'
+          }
+        });
       }
     );
   },

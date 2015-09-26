@@ -13,22 +13,31 @@ const ListStore = Reflux.createStore({
   mixins: [AjaxMixin],
 
   onGetAll(cid) {
+    console.log('getall')
     let _this = this;
     this.getAjaxData(
       ajaxConfig.list, 
       { cid: cid, p: 1 },
       function(result) {
         _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false);
+      },
+      function() {
+        console.log('error')
       }
     );
   },
   onGetMore(cid, page, oldList){
+    console.log('getmore')
     let _this = this;
     this.getAjaxData(
       ajaxConfig.list, 
       { cid: cid, p: page },
       function(result) {
-        _this.trigger(oldList.concat(result.data.content), result.data.subChannel, result.cname, page, false);
+        _this.trigger(oldList.concat(result.data.content), result.data.subChannel, result.cname, result.bid, page, false);
+      },
+      function() {
+        console.log('error')
+        _this.trigger(false)
       }
     );
   },

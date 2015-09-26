@@ -10,6 +10,7 @@ var slideImg = {
     this.startPos = {};
     this.endPos = {};
     this.isGetMore = false;
+    this.timerAnimate = null;
 
     this.calculate();
     this.getRequestAnimationFrame();
@@ -23,8 +24,8 @@ var slideImg = {
     this.aryLength = this.liAry.length;
     this.ul.style.width = this.liAry.length * this.w_width + 'px';
     this.ul.style.height = this.w_height + 'px';
-    this.ul.style.left = -this.index * this.w_width + 'px';
-    this.current = Number(this.ul.style.left.match(/\-?[0-9]+/g));;
+    this.ul.style.webkitTransform = 'translate('+ (-this.index * this.w_width) + 'px)';
+    this.current = Number(this.ul.style.webkitTransform.match(/\-?[0-9]+/g));;
     for (var i = 0; i < this.liAry.length; i++) {
       this.liAry[i].style.width = this.w_width + 'px';
       this.liAry[i].style.height = this.w_height + 'px';
@@ -42,7 +43,7 @@ var slideImg = {
     });
     function start(event){
       //event.preventDefault();
-      var touch = event.touches[0]; // 取第一个touch的坐标值
+      var touch = event.touches[0];
       _this.startPos = {                                 
         x: touch.pageX,
         y: touch.pageY,
@@ -65,28 +66,54 @@ var slideImg = {
     function end(event){
       var duration = +new Date - _this.startPos.time; 
       if (Number(duration) > 100) {
-        // 判断是左移还是右移，当偏移量大于50时执行
-        if (_this.endPos.x > 50) {
+        if (_this.endPos.x > 60) {
           if (_this.index > 0) {
-            if (_this.navNode.style.display != 'none') {
-              _this.navNode.style.display = 'none';
-            }
-            requestAnimationFrame(rightcallback.bind(_this));
+            // if (_this.navNode.style.display != 'none') {
+            //   _this.navNode.style.display = 'none';
+            // }
+            // requestAnimationFrame(rightcallback.bind(_this));
+
+            _this.timerAnimate = setInterval(function(){
+              var cur = Number(_this.ul.style.webkitTransform.match(/\-?[0-9]+/g));
+              var newCur = _this.current + _this.w_width;
+              _this.ul.style.webkitTransform = 'translate(' + (cur + 50) + 'px)';
+              if ((cur + 50) >= newCur) {
+                clearInterval(_this.timerAnimate);
+                _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
+                _this.current = newCur;
+              }
+            }, 30);
+
             _this.index--
+            _this.changeNavTitle();
           }
-        } else if (_this.endPos.x < -50) {
-          // console.log('index:'+_this.index)
-          // console.log('liAry:'+_this.liAry.length)
+        } else if (_this.endPos.x < -60) {
           if (_this.aryLength < _this.liAry.length) {
             _this.isGetMore = false;
             _this.calculate();
           }
           if (_this.index < _this.liAry.length-1) {
-            if (_this.navNode.style.display != 'none') {
-              _this.navNode.style.display = 'none';
-            }
-            requestAnimationFrame(leftcallback.bind(_this));
+            // if (_this.navNode.style.display != 'none') {
+            //   _this.navNode.style.display = 'none';
+            // }
+            // requestAnimationFrame(leftcallback.bind(_this));
+
+            _this.timerAnimate = setInterval(function(){
+              var cur = Number(_this.ul.style.webkitTransform.match(/\-?[0-9]+/g));
+              var newCur = _this.current - _this.w_width;
+              _this.ul.style.webkitTransform = 'translate(' + (cur - 50) + 'px)';
+              if ((cur - 50) <= newCur) {
+                clearInterval(_this.timerAnimate);
+                _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
+                _this.current = newCur;
+                if (_this.isGetMore) {
+                  _this.getMore();
+                }
+              }
+            }, 30);
+
             _this.index++
+            _this.changeNavTitle();
           }
           if (_this.index == _this.liAry.length-2) {
             _this.isGetMore = true;
@@ -102,14 +129,14 @@ var slideImg = {
     }
   },
   leftSlide: function() {
-    var cur = Number(this.ul.style.left.match(/\-?[0-9]+/g));
+    var cur = Number(this.ul.style.webkitTransform.match(/\-?[0-9]+/g));
     var newCur = this.current - this.w_width;
-    this.ul.style.left = (cur - 25) + 'px';
+    this.ul.style.webkitTransform = 'translate(' + (cur - 40) + 'px)';
 
-    if ((cur - 25) > newCur) {
+    if ((cur - 40) > newCur) {
       requestAnimationFrame(this.leftSlide.bind(this));
     } else {
-      this.ul.style.left = newCur + 'px';
+      this.ul.style.webkitTransform = 'translate(' + newCur + 'px)';
       this.current = newCur;
       if (this.isGetMore) {
         this.getMore();
@@ -117,13 +144,13 @@ var slideImg = {
     }
   },
   rightSlide: function() {
-    var cur = Number(this.ul.style.left.match(/\-?[0-9]+/g));
+    var cur = Number(this.ul.style.webkitTransform.match(/\-?[0-9]+/g));
     var newCur = this.current + this.w_width;
-    this.ul.style.left = (cur + 25) + 'px';
-    if ((cur + 25) < newCur) {
+    this.ul.style.webkitTransform = 'translate(' + (cur + 40) + 'px)';
+    if ((cur + 40) < newCur) {
       requestAnimationFrame(this.rightSlide.bind(this));
     } else {
-      this.ul.style.left = newCur + 'px';
+      this.ul.style.webkitTransform = 'translate(' + newCur + 'px)';
       this.current = newCur;
     }
   },

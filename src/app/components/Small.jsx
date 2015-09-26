@@ -57,6 +57,8 @@ const List = React.createClass({
             _this.setState(_data);
           }
         );
+      },function() {
+        console.log('error');
       }
     );
   },
@@ -73,11 +75,12 @@ const List = React.createClass({
       <div id="list" className="full-height">
         <HeaderBar cname={this.state.cname} />
         {specialSubjectNode}
-        <div className="news-box">
+        <div className="news-box subject">
           <ListUl 
             newslist={this.state.newslist} 
             cid={this.props.params.cid} 
             bid={this.state.bid}
+            viewType="small"
           />
           <div className="more" style={this.state.morestyle}>页面加载中...</div>
         </div>
@@ -102,6 +105,13 @@ const List = React.createClass({
             }
           });
         }
+      },
+      function() {
+        _this.setState({
+          morestyle: {
+            display: 'none'
+          }
+        });
       }
     );
   },

@@ -9,7 +9,13 @@ const ListUl = React.createClass({
       if (news.sourceType == 6) {
         return <li className="subject-type6">{news.context}</li>
       } else if (news.sourceType != 6 && news.sourceType !=7){
-        return <ListItem key={news.objectId} data={news} cid={this.props.cid} bid={this.props.bid}/>
+        return <ListItem 
+          key={news.objectId} 
+          data={news} 
+          cid={this.props.cid} 
+          bid={this.props.bid} 
+          viewType={this.props.viewType} 
+        />
       }
     });
     return (

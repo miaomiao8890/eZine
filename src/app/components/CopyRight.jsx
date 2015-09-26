@@ -8,7 +8,10 @@ const CopyRight = React.createClass({
   render() {
     return (
       <div id="copyright" className="full-height">
-        <HeaderBar cname="版权声明" />
+        <header className="header-bar">
+          <i className="back-btn" onClick={this.handleBackBtn}></i>
+          版权声明
+        </header>
         <div className="copyright-content">
           <p className="clearfix">
           <span className="copyright-index">一、 </span>
@@ -29,7 +32,10 @@ const CopyRight = React.createClass({
         </div>
       </div>
     );
-  }
+  },
+  handleBackBtn() {
+    window.history.go(-1);
+  },
 });
 
 export default CopyRight;

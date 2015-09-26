@@ -1,7 +1,7 @@
 'use strict';
 
 let AjaxMixin = {
-  getAjaxData(url, data, callback) {
+  getAjaxData(url, data, callback, error) {
     var geturl = this.getUrl(url, data);
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
@@ -9,6 +9,8 @@ let AjaxMixin = {
         if((xhr.status>=200 && xhr.status<300) || xhr.status==304 ){
           var responseObj = JSON.parse(xhr.responseText);
           callback(responseObj);
+        } else {
+          error();
         }
       }
     };

@@ -50,7 +50,7 @@ const ListItem = React.createClass({
             cid: this.props.cid, 
             bid: this.props.bid, 
             oid: this.props.data.objectId,
-            viewType: 'news'
+            viewType: this.props.viewType
           }} >
             {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}
@@ -62,7 +62,11 @@ const ListItem = React.createClass({
   getImgComponent(thumbnailPic) {
     let thumbnailPicDom;
     if (thumbnailPic) {
-      thumbnailPicDom = <img src={thumbnailPic} />
+      thumbnailPicDom = (
+        <div className="news-item-img">
+          <img src={thumbnailPic} />
+        </div>
+      );
     }
     return thumbnailPicDom;
   },

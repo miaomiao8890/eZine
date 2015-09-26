@@ -34,10 +34,14 @@ const Beauty = React.createClass({
       navlist: [],
       boxStyle: {
         display: 'none'
+      },
+      morestyle: {
+        display: 'none'
       }
     };
   },
   componentDidMount() {
+    this.setState({isLock: true});
     ListAction.getAll(this.props.params.cid);
     // this.getAjaxDataByEasy(
     //   ajaxConfig.list, 
@@ -74,6 +78,8 @@ const Beauty = React.createClass({
         </nav>
         <Gallery ref="Gallery" elements={this.state.beautylist} handleClickFn={this.handleClick} />
         <BeautyImg elements={this.state.beautylist} style={{display:'none'}} />
+        <div className="beauty-more" style={this.state.morestyle}>页面加载中...</div>
+        <div className="beauty-init"></div>
       </div>
     );
   },
@@ -101,25 +107,38 @@ const Beauty = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            beautylist: beautylist.concat(result.data.content)
+            beautylist: beautylist.concat(result.data.content),
+            morestyle: {
+              display: 'none'
+            }
           });
         }
       }
     );
   },
   onStatusChange(data, subChannel, cname, bid, page, isLock) {
-    if (this.isMounted()) {
-      this.setState({
-        isLock: isLock,
-        cname: cname,
-        bid: bid,
-        beautylist: data,
-        page: page,
-        navlist: subChannel,
-        boxStyle: {
-          display: 'block'
-        }
-      });
+    if (data) {
+      if (this.isMounted()) {
+        this.setState({
+          isLock: isLock,
+          cname: cname,
+          bid: bid,
+          beautylist: data,
+          page: page,
+          navlist: subChannel,
+          boxStyle: {
+            display: 'block'
+          }
+        });
+      }
+    } else {
+      if (this.isMounted()) {
+        this.setState({
+          morestyle: {
+            display: 'none'
+          }
+        });
+      }
     }
   },
   handleClick(index) {

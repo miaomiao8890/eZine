@@ -19,7 +19,10 @@ const Feedback = React.createClass({
   render() {
     return (
       <div id="feedback" className="full-height">
-        <HeaderBar cname="意见反馈" />
+        <header className="header-bar">
+          <i className="back-btn" onClick={this.handleBackBtn}></i>
+          意见反馈
+        </header>
         <div className="feedback-content">
         <form onSubmit={this.submitHandle}>
           <div className="feedback-textarea">
@@ -41,16 +44,26 @@ const Feedback = React.createClass({
     event.preventDefault();
     let feedbackContext = this.refs.feedbackContext.getDOMNode().value;
     let userInfo = this.refs.userInfo.getDOMNode().value;
-    //submit
-    this.getAjaxData(
-      ajaxConfig.feedback, { 
-        ti: userInfo,
-        fi: feedbackContext
-      },
-      function(result) {
-        console.log('Feedback Success!')
-      }
-    );
+    if (feedbackContext.length == 0 ) {
+      alert('请填写意见');
+      return;
+    } else if (feedbackContext.length > 0 && userInfo.length == 0) {
+      alert('请填写联系方式')
+      return;
+    } else {
+      //submit
+      this.getAjaxData(
+        ajaxConfig.feedback, { 
+          ti: userInfo,
+          fi: feedbackContext
+        },
+        function(result) {
+          console.log('Feedback Success!');
+        }
+      );
+      window.history.go(-1);
+      
+    }
   },
   handleTextArea() {
     let value = this.refs.feedbackContext.getDOMNode().value;
@@ -64,6 +77,9 @@ const Feedback = React.createClass({
         wordlength: value.length,
       });
     }
+  },
+  handleBackBtn() {
+    window.history.go(-1);
   },
 });
 

@@ -42,6 +42,13 @@ const BeautyStore = Reflux.createStore({
           page, 
           false
         );
+      },
+      function() {
+        _this.setState({
+          morestyle: {
+            display: 'none'
+          }
+        });
       }
     );
   },

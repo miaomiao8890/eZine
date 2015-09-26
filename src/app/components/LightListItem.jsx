@@ -6,18 +6,10 @@ import { Link } from 'react-router';
 const LightListItem = React.createClass({
   getInitialState() {
     return {
-      style: {},
       title: ""
     };
   },
   componentWillMount() {
-    if (this.props.data.thumbnailPic) {
-      this.setState({ 
-        style: {
-          "margin-right": "6.7325rem"
-        }
-      });
-    }
     if (this.props.data.title) {
       this.setState({ 
         title: this.props.data.title
@@ -26,17 +18,17 @@ const LightListItem = React.createClass({
   },
   render() {
     let data = this.props.data
-            ,thumbnailPicNode
+            ,middlePicNode
             ,url
             ,context
           ;
-    if (this.props.data.thumbnailPic) {
-      thumbnailPicNode = <img src={this.props.data.thumbnailPic} />
+    if (this.props.data.middlePic) {
+      middlePicNode = <img src={this.props.data.middlePic} />
     }
     context = (
       <div className="light-info">
         <p className="light-context">{this.props.data.context}</p>
-        {thumbnailPicNode}
+        {middlePicNode}
         <p className="light-bottom">
           <span className="light-author">{this.props.data.authorName}</span>
           <span>{this.props.data.createDateStr}</span>

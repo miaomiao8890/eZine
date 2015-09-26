@@ -27,6 +27,7 @@ const LightList = React.createClass({
     };
   },
   componentDidMount() {
+    this.setState({isLock: true});
     ListAction.getAll(this.props.params.cid);
   },
   componentWillReceiveProps(nextProps) {
@@ -77,14 +78,22 @@ const LightList = React.createClass({
     ListAction.getMore(this.props.params.cid, _page, this.state.list);
   },
   onStatusChange(data, subChannel, cname, bid, page, isLock) {
-    if (this.isMounted()) {
+    if (data) {
+      if (this.isMounted()) {
+        this.setState({
+          isLock: isLock,
+          cname: cname,
+          bid: bid,
+          list: data,
+          page: page,
+          navlist: subChannel,
+          morestyle: {
+            display: 'none'
+          }
+        });
+      }
+    } else {
       this.setState({
-        isLock: isLock,
-        cname: cname,
-        bid: bid,
-        list: data,
-        page: page,
-        navlist: subChannel,
         morestyle: {
           display: 'none'
         }

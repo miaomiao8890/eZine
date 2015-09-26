@@ -25,6 +25,7 @@ const DetailStore = Reflux.createStore({
           { group: 1 },
           function(result) {
             _data.hotwordslist = result.data.list;
+            _data.hotwordsGroup = result.data.nextGroup;
             _this.trigger(_data);
           }
         )
