@@ -19,13 +19,15 @@ const DetailStore = Reflux.createStore({
       { cid: cid, bid: bid, oid: oid },
       function(result) {
         _data.data = result.data;
+        let group = localStorage.getItem("hotwordsPage") ? localStorage.getItem("hotwordsPage") : 1;
         // _this.trigger(result.data);
         _this.getAjaxData(
           ajaxConfig.hotwords, 
-          { group: 1 },
+          { group: group },
           function(result) {
             _data.hotwordslist = result.data.list;
             _data.hotwordsGroup = result.data.nextGroup;
+             
             _this.trigger(_data);
           }
         )

@@ -24,7 +24,6 @@ let ScrollMixin = {
         this.getMoreData();
       }
 
-
       // if(document.body.scrollTop > document.body.scrollHeight - document.body.offsetHeight - 30 && !this.state.isLock) {
       //   this.setState({ 
       //     isLock: true,

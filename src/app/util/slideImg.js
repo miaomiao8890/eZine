@@ -9,6 +9,7 @@ var slideImg = {
     this.getMore = getMorecallback;
     this.startPos = {};
     this.endPos = {};
+    this.isTouched = false;
     this.isGetMore = false;
     this.timerAnimate = null;
 
@@ -35,12 +36,20 @@ var slideImg = {
   //滑动
   slide: function(obj, leftcallback, rightcallback) {
     var _this = this;
-    if(("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch) 
+    if(("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch) {
       obj.addEventListener('touchstart',start,false);
-    document.querySelector('.back-btn-img').addEventListener('click',function() {
-      document.querySelector('.beauty-img').style.display = 'none';
+    }
+    document.querySelector('.back-btn-img').addEventListener('click',handleBack, false);
+    function handleBack() {
       obj.removeEventListener('touchstart',start,false);
-    });
+      document.querySelector('.back-btn-img').removeEventListener('click',handleBack,false);
+      window.history.go(-1);
+    }
+    window.addEventListener('popstate', handlePopState, false);
+    function handlePopState() {
+      obj.removeEventListener('touchstart',start,false);
+      document.querySelector('.beauty-img').style.display = 'none';
+    }
     function start(event){
       //event.preventDefault();
       var touch = event.touches[0];
@@ -61,7 +70,7 @@ var slideImg = {
       _this.endPos = {
         x: touch.pageX - _this.startPos.x,
         y: touch.pageY - _this.startPos.y
-      };          
+      };
     }
     function end(event){
       var duration = +new Date - _this.startPos.time; 
@@ -79,6 +88,7 @@ var slideImg = {
               _this.ul.style.webkitTransform = 'translate(' + (cur + 50) + 'px)';
               if ((cur + 50) >= newCur) {
                 clearInterval(_this.timerAnimate);
+                _this.timerAnimate = null;
                 _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
                 _this.current = newCur;
               }
@@ -104,6 +114,7 @@ var slideImg = {
               _this.ul.style.webkitTransform = 'translate(' + (cur - 50) + 'px)';
               if ((cur - 50) <= newCur) {
                 clearInterval(_this.timerAnimate);
+                _this.timerAnimate = null;
                 _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
                 _this.current = newCur;
                 if (_this.isGetMore) {

@@ -17,6 +17,9 @@ const GridList = React.createClass({
   },
   componentDidMount() {
     let _this = this;
+    //reset
+    localStorage.setItem("data", "");
+
     this.getAjaxData(
       ajaxConfig.index, {}, function(result) {
         if (_this.isMounted()) {

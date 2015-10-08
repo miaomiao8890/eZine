@@ -19,6 +19,7 @@ export default (
     <Route name="news" path="/news/:cid" component={List}></Route>
     <Route name="small" path="/small/:cid" component={Small}></Route>
     <Route name="waterfall" path="/waterfall/:cid" component={Beauty}></Route>
+    <Route name="waterfall" path="/waterfall/:cid/detail" component={Beauty}></Route>
     <Route name="light" path="/light/:cid" component={LightList}></Route>
     <Route name="detail" path="/detail/" component={Detail}></Route>
     <Route name="copyright" path="/copyright" component={CopyRight}></Route>

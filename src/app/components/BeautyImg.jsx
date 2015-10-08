@@ -3,7 +3,7 @@ import React from 'react';
 const BeautyImg = React.createClass({
   render() {
     let childElements = this.props.elements.map((element, index) => (
-      <li>
+      <li key={index}>
         <span>
           <img src={element.middlePic} />
         </span>

@@ -18,6 +18,7 @@ const HotWordsStore = Reflux.createStore({
       ajaxConfig.hotwords, 
       { group: group },
       function(result) {
+        localStorage.setItem("hotwordsPage", group); 
         _this.trigger(result.data);
       }
     );

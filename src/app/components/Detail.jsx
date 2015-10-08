@@ -181,8 +181,15 @@ const Detail = React.createClass({
     HotWordsAction.changeItem(this.state.hotwordsGroup);
   },
   handleShare() {
-    let title = this.refs.detailTitle.getDOMNode().innerHTML;
-    document.querySelector(".share-btn").href="javascript:ShareInPage.nativeShare('"+document.title+"', '"+title+"', '"+null+"', '"+document.URL+"')";
+    if (this.state.data.content.current.context) {
+      let title = "";
+      if (this.state.data.content.current.title) {
+        title = this.state.data.content.current.title;
+      } else {
+        title = this.state.data.content.current.context.substring(0, 40) + "...";
+      }
+      document.querySelector(".share-btn").href="javascript:ShareInPage.nativeShare('"+document.title+"', '"+title+" "+window.location.href+"', '"+window.location.href+"', '"+window.location.href+"')";
+    }
   },
   onHotWordsStatusChange(data) {
     if (this.isMounted()) {

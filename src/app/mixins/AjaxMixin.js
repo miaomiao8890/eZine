@@ -7,6 +7,9 @@ let AjaxMixin = {
     xhr.onreadystatechange = function(){
       if(xhr.readyState == 4){
         if((xhr.status>=200 && xhr.status<300) || xhr.status==304 ){
+          if(!xhr.responseText){
+            error();
+          }
           var responseObj = JSON.parse(xhr.responseText);
           callback(responseObj);
         } else {

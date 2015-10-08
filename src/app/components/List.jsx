@@ -7,6 +7,7 @@ import HeaderBar from './HeaderBar.jsx';
 import HotWords from './HotWords.jsx';
 import ListUl from './ListUl.jsx';
 
+import StorageMixin from '../mixins/StorageMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
@@ -17,7 +18,8 @@ const List = React.createClass({
   
   mixins: [
     AjaxMixin, 
-    ScrollMixin, 
+    ScrollMixin,
+    StorageMixin,
     Reflux.connect(HotWordsStore, 'hotwords'), 
     Reflux.listenTo(HotWordsStore, 'onStatusChange')
   ],
@@ -33,13 +35,17 @@ const List = React.createClass({
       subject: null,
       morestyle: {
         display: 'none'
+      },
+      style: {
+        display: 'none'
       }
     };
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
     this.setState({isLock: true});
-
+    
+    let storage = this.getData();
     let _this = this;
     let _data = {};
     //getAll
@@ -49,18 +55,33 @@ const List = React.createClass({
       function(result) {
         _data.hotwordslist = result.data.list;
         _data.hotwordsGroup = result.data.nextGroup;
-        _this.getAjaxData(
-          ajaxConfig.list, 
-          { cid: _this.props.params.cid, p: 1 },
-          function(result) {
-            let newlist = _this.checkSubject(result.data.content)
-            _data.cname = result.cname;
-            _data.newslist = newlist;
-            _data.bid = result.bid;
-            _data.isLock = false;
-            _this.setState(_data);
-          }
-        );
+        //list
+        if(storage && _this.props.params.cid == storage.cid) {
+          _data.newslist = storage.list;
+          _data.cname = storage.cname;
+          _data.bid = storage.bid;
+          _data.page = storage.page;
+          _data.subject = storage.subject;
+          _data.isLock = false;
+          _data.style = {display: 'block'};
+          _this.setState(_data);
+          scroll(0, storage.position);
+        } else { //ajax
+          localStorage.setItem("data", "");
+          _this.getAjaxData(
+            ajaxConfig.list, 
+            { cid: _this.props.params.cid, p: 1 },
+            function(result) {
+              let newlist = _this.checkSubject(result.data.content)
+              _data.newslist = newlist;
+              _data.cname = result.cname;
+              _data.bid = result.bid;
+              _data.isLock = false;
+              _data.style = {display: 'block'};
+              _this.setState(_data);
+            }
+          );
+        }
       },function() {
         console.log('error');
       }
@@ -85,7 +106,7 @@ const List = React.createClass({
       );
     }
     return (
-      <div id="list" className="full-height">
+      <div id="list" className="full-height" style={this.state.style}>
         <HeaderBar cname={this.state.cname} />
         {specialSubjectNode}
         <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />

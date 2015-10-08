@@ -67,7 +67,7 @@ input:focus{border:0;outline:medium}
 .news-item .news-item-img img{width: 100%;}
 .news-item .news-info{min-height: 4.21rem;position: relative;overflow: hidden;max-height: 6rem;}
 .news-item .news-info .news-title{padding-bottom: 1.6875rem;font-size: 1.0625rem;max-height: 6rem;overflow: hidden;width: 100%;}
-.news-item .news-info .news-context{font-size: .9375rem;color: #6e6e6e;margin-bottom: 1.6875rem;max-height: 4.9375rem;overflow: hidden;}
+.news-item .news-info .news-context{font-size: .9375rem;color: #000;margin-bottom: 1.6875rem;max-height: 4.9375rem;overflow: hidden;}
 .news-item .news-info .news-bottom{position: absolute;color: #b8b8b8;font-size: .6875rem;bottom: 0px;left: 0px;}
 .news-item .news-info .news-bottom span{margin-right: .625rem;}
 .news-item .news-info .news-bottom .news-author{color: #42a5f5;}
@@ -76,10 +76,10 @@ input:focus{border:0;outline:medium}
 .more{width: 100%;height: 3.125rem;line-height: 3.125rem;font-size: .9375rem;color: #737373;text-align: center;background-color: #fff;}
 /* 消息详情页 */
 .news-detail-box{padding: .8125rem;background-color: #fff;/*min-height: 500px;*/border-bottom: 1px solid #e5e5e5;}
-.news-detail-title{width: 100%;color: #000;font-size: 1.25rem;font-weight: 200;}
-.news-detail-content{width: 100%;margin-top: .8125rem;}
+.news-detail-title{width: 100%;color: #000;font-size: 1.25rem;font-weight: 600;}
+.news-detail-content{width: 100%;margin-top: 1.4375rem;}
 .news-detail-content img{width: 100%;margin-top: .8125rem;margin-bottom: .8125rem;}
-.news-detail-content p{font-size: 1.0625rem;color: #212121;line-height: 1.6rem;}
+.news-detail-content p{font-size: 1.0625rem;color: #212121;line-height: 1.75rem;margin: 1.2rem 0;}
 .news-detail-bottom{margin-top: 1.5625rem;position: relative;}
 .news-detail-bottom .news-detail-time{font-size: .6875rem;color: #b8b8b8;}
 .news-detail-bottom .news-detail-url{position: absolute;width: 4.7rem;height: 1.25rem;line-height: 1.25rem;text-align: center; background-color: #f7f7f7;color: #666;font-size: .6875rem;right: 0;bottom: 0;border-radius: .625rem;}
@@ -137,7 +137,7 @@ input:focus{border:0;outline:medium}
 .beauty-img ul li{float: left;text-align: center;display: table; }
 .beauty-img ul li span{display: table-cell;vertical-align: middle;}
 .beauty-img ul li img{width: 100%;}
-.header-bar-img{width: 100%;height: 2.75rem;line-height: 2.75rem;background-color: #212121;color: #fff;font-size: 1rem; position: fixed;text-indent: 3.75rem;z-index: 99;overflow: hidden;}
+.header-bar-img{width: 100%;height: 2.75rem;line-height: 2.75rem;background-color: #212121;color: #fff;font-size: 1rem; position: fixed;top:0;left:0;text-indent: 3.75rem;z-index: 99;overflow: hidden;}
 .header-bar-img .back-btn-img{position: absolute;display: block;width: 3rem;height: 2.75rem;left: 0;top: 0;background: url(../images/icons-imgarrowleft.png) center no-repeat;background-size: 1rem 1rem;cursor: pointer;}
 .beauty-more{width: 100%;height: 3.125rem;line-height: 3.125rem;font-size: .9375rem;color: #878787;text-align: center;background-color: #212121;position: fixed;bottom: 0;left: 0;z-index: 99;}
 .beauty-init{width: 100%;height: 100%;position: absolute;background-color: #fff;left: 0;top: 0;z-index: 999;}
@@ -168,6 +168,8 @@ input:focus{border:0;outline:medium}
 .feedback-input{margin-top: .8125rem;padding: .625rem;background-color: #fff;border-radius: 2px;}
 .feedback-input input{width: 100%; height: 1.5625rem;line-height: 1.5625rem;border:0;color: #404040;font-size: .9375rem;}
 .submit-btn{width: 100%;border:0;height: 2.96rem;line-height: 2.96rem;margin-top: .8125rem;color: #fff;background-color: #546e7a;text-align: center; font-size: 1rem;}
-
-
-
+.screen-bg{width: 100%;height: 100%;position: fixed;background-color: #000;opacity: .5;left: 0;top: 0;z-index: 998;}
+.register-pass{width: 80%;height: 9rem;z-index: 999;left: 50%;top: 50%;margin-top: -4.5rem;margin-left: -40%;position: fixed;background-color: #fff;border-radius: 5px;}
+.register-pass-title{height: 2rem;background-color: #9c9c9c;color: #fff;line-height: 2rem;font-size: .875rem;text-indent: .625rem;}
+.register-pass p{font-size: .875rem;text-align: center;margin-top: 1.25rem;}
+.bottom-btn{position: absolute;bottom: 0;left: 0;width: 100%;height: 2.5rem;line-height: 2.5rem;border-top: 1px solid #e0e0e0;text-align: center;font-size: 1rem;color: #0397ff;cursor: pointer;}

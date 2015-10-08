@@ -6,29 +6,49 @@ import { Link } from 'react-router';
 import HeaderBar from './HeaderBar.jsx';
 import LightListUl from './LightListUl.jsx';
 
+import StorageMixin from '../mixins/StorageMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import ListAction from '../actions/ListAction';
 import ListStore from '../stores/ListStore';
 
 const LightList = React.createClass({
 
-  mixins: [ ScrollMixin, Reflux.connect(ListStore, 'list'), Reflux.listenTo(ListStore, 'onStatusChange')],
+  mixins: [ StorageMixin, ScrollMixin, Reflux.connect(ListStore, 'list'), Reflux.listenTo(ListStore, 'onStatusChange')],
 
   getInitialState() {
     return {
       cname: null,
       bid: null,
       page: 1,
-      list: [],
+      newslist: [],
       navlist: [],
       morestyle: {
+        display: 'none'
+      },
+      style: {
         display: 'none'
       }
     };
   },
   componentDidMount() {
-    this.setState({isLock: true});
-    ListAction.getAll(this.props.params.cid);
+    let _data = {};
+    let storage = this.getData();
+    if(storage && this.props.params.cid == storage.cid) {
+      _data.newslist = storage.list;
+      _data.cname = storage.cname;
+      _data.bid = storage.bid;
+      _data.page = storage.page;
+      _data.isLock = false;
+      _data.navlist = storage.navlist;
+      _data.style = {display: 'block'};
+      this.setState(_data);
+      setTimeout(function() {
+        scroll(0, storage.position);
+      },10);
+    } else {
+      localStorage.setItem("data", "");
+      ListAction.getAll(this.props.params.cid);
+    }
   },
   componentWillReceiveProps(nextProps) {
     let oldCid = this.props.params.cid;
@@ -40,7 +60,7 @@ const LightList = React.createClass({
   },
   render() {
     return (
-      <div id="lightlist" className="full-height">
+      <div id="lightlist" className="full-height" style={this.state.style}>
         <HeaderBar cname={this.state.cname} />
         <nav className="light-nav clearfix">
           <ul className="clearfix">
@@ -49,7 +69,7 @@ const LightList = React.createClass({
         </nav>
         <div className="light-box">
           <LightListUl 
-            list={ this.state.list } 
+            list={ this.state.newslist } 
             cid={this.props.params.cid} 
             bid={this.state.bid}
           />
@@ -73,9 +93,9 @@ const LightList = React.createClass({
   getMoreData() {
     let _this = this;
     let _page = ++this.state.page;
-    let newslist = this.state.list;
+    let newslist = this.state.newslist;
 
-    ListAction.getMore(this.props.params.cid, _page, this.state.list);
+    ListAction.getMore(this.props.params.cid, _page, this.state.newslist);
   },
   onStatusChange(data, subChannel, cname, bid, page, isLock) {
     if (data) {
@@ -84,11 +104,14 @@ const LightList = React.createClass({
           isLock: isLock,
           cname: cname,
           bid: bid,
-          list: data,
+          newslist: data,
           page: page,
           navlist: subChannel,
           morestyle: {
             display: 'none'
+          },
+          style: {
+            display: 'block'
           }
         });
       }

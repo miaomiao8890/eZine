@@ -30,7 +30,7 @@ const Beauty = React.createClass({
       bid: null,
       cid: null,
       page: 1,
-      beautylist: [],
+      newslist: [],
       navlist: [],
       boxStyle: {
         display: 'none'
@@ -52,7 +52,7 @@ const Beauty = React.createClass({
     //         cname: result.cname,
     //         cid: result.cid,
     //         bid: result.bid,
-    //         beautylist: result.data.content,
+    //         newslist: result.data.content,
     //         navlist: result.data.subChannel
     //       });
     //     }
@@ -76,8 +76,8 @@ const Beauty = React.createClass({
             {this.getNav()}
           </ul>
         </nav>
-        <Gallery ref="Gallery" elements={this.state.beautylist} handleClickFn={this.handleClick} />
-        <BeautyImg elements={this.state.beautylist} style={{display:'none'}} />
+        <Gallery ref="Gallery" elements={this.state.newslist} handleClickFn={this.handleClick} />
+        <BeautyImg elements={this.state.newslist} style={{display:'none'}} />
         <div className="beauty-more" style={this.state.morestyle}>页面加载中...</div>
         <div className="beauty-init"></div>
       </div>
@@ -98,7 +98,7 @@ const Beauty = React.createClass({
   getMoreData() {
     let _this = this;
     let _page = ++this.state.page;
-    let beautylist = this.state.beautylist;
+    let newslist = this.state.newslist;
     this.getAjaxData(
       ajaxConfig.list, 
       { cid: this.props.params.cid, p: _page },
@@ -107,7 +107,7 @@ const Beauty = React.createClass({
           _this.setState({
             isLock: false,
             page: _page,
-            beautylist: beautylist.concat(result.data.content),
+            newslist: newslist.concat(result.data.content),
             morestyle: {
               display: 'none'
             }
@@ -123,7 +123,7 @@ const Beauty = React.createClass({
           isLock: isLock,
           cname: cname,
           bid: bid,
-          beautylist: data,
+          newslist: data,
           page: page,
           navlist: subChannel,
           boxStyle: {
@@ -143,7 +143,9 @@ const Beauty = React.createClass({
   },
   handleClick(index) {
     // console.log(index)
-    slideImg.init(index, this.getMoreData.bind(this))
+    slideImg.init(index, this.getMoreData.bind(this));
+    let url = window.location.href;
+    window.history.pushState('detail', '', '#waterfall/'+this.props.params.cid+'/detail');
   }
 });
 
