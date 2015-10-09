@@ -11,12 +11,12 @@ const DetailStore = Reflux.createStore({
 
   mixins: [AjaxMixin],
 
-  onGetInfo(cid, bid, oid) {
+  onGetInfo(cid, bid, oid, st) {
     let _this = this;
     let _data = {};
     this.getAjaxData(
       ajaxConfig.detail, 
-      { cid: cid, bid: bid, oid: oid },
+      {cid: cid, bid: bid, oid: oid, st: st, trace: 'list_'+cid},
       function(result) {
         _data.data = result.data;
         let group = localStorage.getItem("hotwordsPage") ? localStorage.getItem("hotwordsPage") : 1;

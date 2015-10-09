@@ -50,7 +50,9 @@ const ListItem = React.createClass({
             cid: this.props.cid, 
             bid: this.props.bid, 
             oid: this.props.data.objectId,
-            viewType: this.props.viewType
+            viewType: this.props.viewType,
+            st: this.props.data.sourceType,
+            trace: 'list_' + this.props.cid
           }} >
             {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}

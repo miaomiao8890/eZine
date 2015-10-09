@@ -37,7 +37,7 @@ const List = React.createClass({
         display: 'none'
       },
       style: {
-        display: 'none'
+        display: 'block'
       }
     };
   },
@@ -70,7 +70,12 @@ const List = React.createClass({
           localStorage.setItem("data", "");
           _this.getAjaxData(
             ajaxConfig.list, 
-            { cid: _this.props.params.cid, p: 1 },
+            { 
+              cid: _this.props.params.cid,
+              p: 1,
+              trace: 'home',
+              at: 7
+            },
             function(result) {
               let newlist = _this.checkSubject(result.data.content)
               _data.newslist = newlist;
@@ -128,7 +133,12 @@ const List = React.createClass({
     let newslist = this.state.newslist;
     this.getAjaxData(
       ajaxConfig.list, 
-      { cid: this.props.params.cid, p: _page },
+      { 
+        cid: this.props.params.cid, 
+        p: _page,
+        trace: 'home',
+        at: 7
+      },
       function(result) {
         if (_this.isMounted()) {
           _this.setState({

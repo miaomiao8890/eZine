@@ -33,7 +33,7 @@ const Beauty = React.createClass({
       newslist: [],
       navlist: [],
       boxStyle: {
-        display: 'none'
+        display: 'block'
       },
       morestyle: {
         display: 'none'

@@ -26,7 +26,7 @@ const LightList = React.createClass({
         display: 'none'
       },
       style: {
-        display: 'none'
+        display: 'block'
       }
     };
   },

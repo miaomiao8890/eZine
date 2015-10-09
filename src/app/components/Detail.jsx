@@ -42,7 +42,7 @@ const Detail = React.createClass({
       hotwordsGroup: 1,
       hotwordslist: [],
       style: {
-        display: 'none'
+        display: 'block'
       }
     };
   },
@@ -50,15 +50,23 @@ const Detail = React.createClass({
     DetailAction.getInfo(
       this.props.location.query.cid,
       this.props.location.query.bid,
-      this.props.location.query.oid
+      this.props.location.query.oid,
+      this.props.location.query.st
     );
   },
   componentWillReceiveProps(nextProps) {
-    let oldCid = this.props.location.query;
-    let newCid = nextProps.location.query;
+    let oldQuery = this.props.location.query;
+    let newQuery = nextProps.location.query;
 
-    if (oldCid !== newCid) {
-      window.location.reload();
+    if (oldQuery !== newQuery) {
+      // window.location.reload();
+      window.scroll(0,0);
+      DetailAction.getInfo(
+        newQuery.cid,
+        newQuery.bid,
+        newQuery.oid,
+        newQuery.st
+      );
     }
   },
   componentDidUpdate() {
@@ -170,7 +178,7 @@ const Detail = React.createClass({
         //   oid: data.objectId,
         //   viewType: this.props.location.query.viewType
         // }} className="news-detail-side">{ type + "：" + data.title }</Link>
-        <a className="news-detail-side" href={"/dev3/app.html#/detail/?cid="+this.state.data.cid+"&bid="+this.state.data.bid+"&oid="+data.objectId+"&viewType="+this.props.location.query.viewType}>
+        <a className="news-detail-side" href={"/app.html#/detail/?cid="+this.state.data.cid+"&bid="+this.state.data.bid+"&oid="+data.objectId+"&viewType="+this.props.location.query.viewType}>
           { type + "：" + data.title }
         </a>
       );

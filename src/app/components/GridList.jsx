@@ -16,12 +16,19 @@ const GridList = React.createClass({
     };
   },
   componentDidMount() {
-    let _this = this;
+    let _this = this
+        ,url;
     //reset
     localStorage.setItem("data", "");
 
+    if (_this.getViewType()) {
+      url = ajaxConfig.indexPreview;
+    } else {
+      url = ajaxConfig.index;
+    }
+
     this.getAjaxData(
-      ajaxConfig.index, {}, function(result) {
+      url, {}, function(result) {
         if (_this.isMounted()) {
           _this.setState({
             grids: result.data
@@ -45,7 +52,11 @@ const GridList = React.createClass({
         { gridNodes }
       </ul>
     );
+  },
+  getViewType() {
+    let type = document.getElementsByTagName("body")[0];
+    
+    return type.dataset.type;
   }
 });
-
 export default GridList;

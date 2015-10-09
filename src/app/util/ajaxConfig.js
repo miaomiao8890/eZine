@@ -1,11 +1,12 @@
 'use strict';
 
 const ajaxConfig = {
-    "index": "/ajax.do",
-    "list": "/list/ajax.do",
-    "detail": "/detail/ajax.do",
-    "hotwords": "/getSearchKey.do",
-    "feedback": "/fb/feedback.do",
+    "index": "http://ezine.oupeng.com/ajax.do",
+    "indexPreview": "http://ezine.oupeng.com/ajax2.do?profileId=13",
+    "list": "http://ezine.oupeng.com/list/ajax.do",
+    "detail": "http://ezine.oupeng.com/detail/ajax.do",
+    "hotwords": "http://ezine.oupeng.com/getSearchKey.do",
+    "feedback": "http://ezine.oupeng.com/fb/feedback.do",
 };
 
 export default ajaxConfig;
