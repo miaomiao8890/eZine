@@ -12,19 +12,41 @@ const ListStore = Reflux.createStore({
 
   mixins: [AjaxMixin],
 
-  onGetAll(cid) {
+  onGetAll(cid, hotwordsGroup, url) {
     // console.log('getall')
     let _this = this;
-    this.getAjaxData(
-      ajaxConfig.list, 
-      { cid: cid, p: 1, trace: 'home', at: 7 },
-      function(result) {
-        _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false);
-      },
-      function() {
-        console.log('error')
-      }
-    );
+    if (!hotwordsGroup) {
+      this.getAjaxData(
+        ajaxConfig.list, 
+        { cid: cid, p: 1, trace: 'home', at: 7 },
+        function(result) {
+          _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, null, url);
+        },
+        function() {
+          console.log('error')
+        }
+      );
+    } else {
+      let _data = {};
+      this.getAjaxData(
+        ajaxConfig.hotwords, 
+        {group: hotwordsGroup},
+        function(result) {
+          _data.hotwordslist = result.data.list;
+          _data.hotwordsGroup = result.data.nextGroup;
+          _this.getAjaxData(
+            ajaxConfig.list, 
+            { cid: cid, p: 1, trace: 'home', at: 7 },
+            function(result) {
+              _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, _data, url);
+            },
+            function() {
+              console.log('error')
+            }
+          );
+        }
+      );
+    }
   },
   onGetMore(cid, page, oldList){
     // console.log('getmore')

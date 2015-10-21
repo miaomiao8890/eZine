@@ -27,7 +27,6 @@ const Detail = React.createClass({
   
   getInitialState() {
     let initialData = this.getData("preData");
-    localStorage.removeItem("preData");
     if (!initialData || initialData == "") {
       return {
         data: {
@@ -76,6 +75,8 @@ const Detail = React.createClass({
         this.props.location.query.st,
         this.props.location.query.viewType
       );
+    } else {
+      localStorage.removeItem("preData");
     }
   },
   componentWillReceiveProps(nextProps) {

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Reflux from 'reflux';
 import { Link } from 'react-router';
 
 import ListAction from '../actions/ListAction';
@@ -24,10 +25,9 @@ const GridItem = React.createClass({
   },
   render() {
     let cid = this.props.cid;
-    let listViewType = this.props.listViewType;
     return (
-      <li className="grid-item" id={"grid-item-" + cid} data-cid={cid} style={this.state} ref="gridItem" onClick={this.getListData} >
-        <Link to={`/${listViewType}/${cid}`} >
+      <li className="grid-item" id={"grid-item-" + cid}  style={this.state}>
+        <Link to={`/${this.props.listViewType}/${cid}`} data-cid={cid} ref="gridItem" onClick={this.getListData} >
           <img src={ this.props.icon } width="100%" />
           <p className="grid-title">{this.props.name}</p>
         </Link>
@@ -36,8 +36,13 @@ const GridItem = React.createClass({
   },
   getListData(event) {
     event.preventDefault();
-    let cid = this.refs.gridItem.getDOMNode().dataset.cid;
-    ListAction.getAll(this.props.params.cid);
+    let cid = this.refs.gridItem.getDOMNode().dataset.cid
+        , url = this.refs.gridItem.getDOMNode().href;
+    if ("news" == this.props.listViewType) {
+      ListAction.getAll(cid, 1, url);
+    } else {
+      ListAction.getAll(cid, null, url);
+    }
   }
 });
 
