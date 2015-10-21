@@ -7,7 +7,7 @@ const App = React.createClass({
   getInitialState() {
     return {
       title: "新鲜事儿"
-    }
+    } 
   },
   render() {
     return (

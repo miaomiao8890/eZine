@@ -1,6 +1,6 @@
 'use strict';
 
-import Reflux from 'reflux';
+import Reflux from 'reflux'; 
 
 const ListAction = Reflux.createActions([
   'getAll',

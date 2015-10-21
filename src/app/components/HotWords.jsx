@@ -20,7 +20,7 @@ let HotWords = React.createClass({
         </ul>
       </div>
     );
-  }
+  } 
 });
 
 export default HotWords;
