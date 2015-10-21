@@ -35,8 +35,14 @@ const Beauty = React.createClass({
       boxStyle: {
         display: 'block'
       },
+      listStyle: {
+        display: 'block'
+      },
       morestyle: {
         display: 'none'
+      },
+      loadingStyle: {
+        display: 'block'
       }
     };
   },
@@ -64,22 +70,33 @@ const Beauty = React.createClass({
     let newCid = nextProps.params.cid;
 
     if (oldCid !== newCid) {
+      this.setState({
+        loadingStyle: {
+          display: 'block'
+        }
+      });
       ListAction.getAll(newCid);
     }
   },
   render() {
     return (
-      <div id="beauty" className="full-height" style={this.state.boxStyle}>
-        <HeaderBar cname={this.state.cname} />
-        <nav className="beauty-nav clearfix">
-          <ul className="clearfix">
-            {this.getNav()}
-          </ul>
-        </nav>
-        <Gallery ref="Gallery" elements={this.state.newslist} handleClickFn={this.handleClick} />
-        <BeautyImg elements={this.state.newslist} style={{display:'none'}} />
-        <div className="beauty-more" style={this.state.morestyle}>页面加载中...</div>
-        <div className="beauty-init"></div>
+      <div>
+        <div id="beauty" className="full-height" style={this.state.boxStyle}>
+          <HeaderBar cname={this.state.cname} />
+          <nav className="beauty-nav clearfix">
+            <ul className="clearfix">
+              {this.getNav()}
+            </ul>
+          </nav>
+          <Gallery ref="Gallery" elements={this.state.newslist} handleClickFn={this.handleClick} style={this.state.listStyle} />
+          <BeautyImg elements={this.state.newslist} style={{display:'none'}} />
+          <div className="beauty-more" style={this.state.morestyle}>页面加载中...</div>
+          <div className="beauty-init"></div>
+          <div className="beauty-img-bg"></div>
+        </div>
+        <div className="loading-bg" style={this.state.loadingStyle}>
+          <div className="loading-icon"></div>
+        </div>
       </div>
     );
   },
@@ -110,6 +127,9 @@ const Beauty = React.createClass({
             newslist: newslist.concat(result.data.content),
             morestyle: {
               display: 'none'
+            },
+            loadingStyle: {
+              display: 'none'
             }
           });
         }
@@ -128,6 +148,9 @@ const Beauty = React.createClass({
           navlist: subChannel,
           boxStyle: {
             display: 'block'
+          },
+          loadingStyle: {
+            display: 'none'
           }
         });
       }
@@ -143,9 +166,25 @@ const Beauty = React.createClass({
   },
   handleClick(index) {
     // console.log(index)
-    slideImg.init(index, this.getMoreData.bind(this));
+    this.setState({
+      isLock: true,
+      listStyle: {
+        display: 'none'
+      }
+    });
+    slideImg.init(index, this.getMoreData.bind(this), this.lockScroll.bind(this), this.hideList.bind(this));
     let url = window.location.href;
     window.history.pushState('detail', '', '#waterfall/'+this.props.params.cid+'/detail');
+  },
+  lockScroll() {
+    this.setState({
+      isLock: false,
+    });
+  },
+  hideList() {
+    this.setState({
+      listStyle: 'block'
+    });
   }
 });
 

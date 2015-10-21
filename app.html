@@ -2,12 +2,65 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=1">
     <meta name="format-detection" content="telephone=no">
     <title>新鲜事儿</title>
     <link rel="stylesheet" type="text/css" href="src/css/base.css">
   </head>
   <body>
-    <script src="public/build/bundle.js"></script>
+    <div id="index" class="full-height" style="display:none;">
+    <div class="grid-box">
+        <ul class="grid-list clearfix" id="indexList">
+            
+        </ul>
+    </div>
+</div>
+<div id="ezine"></div>
+    <script>
+    !function() {
+      if (location.href == "#/" || location.href == "") {
+        var app = document.getElementById("ezine")
+            , index = document.getElementById("index");
+        index.style.display = "block";
+        app.style.display = "none";
+        index.addEventListener("click", function() {
+          index.style.display = "none";
+          app.style.display = "block";
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+          if(xhr.readyState == 4){
+            if((xhr.status>=200 && xhr.status<300) || xhr.status==304 ){
+              if(!xhr.responseText){
+                console.log("error")
+              }
+              var responseObj = JSON.parse(xhr.responseText);
+              // console.log(responseObj);
+              var htmlText = ''
+                  , domHeight = document.body.scrollWidth/3
+                  , url = window.location.href;
+              responseObj.data.map(function(item) {
+                // console.log(item);
+                htmlText += '<li class="grid-item" id="grid-item-"' + item.id + ' style="height: '+ domHeight +'px;"><a href="'+url+item.listViewType+'/'+item.id+'"><img src="'+item.icon+'" width="100%"><p class="grid-title">'+item.name+'</p></a></li>'
+              });
+              document.getElementById("indexList").innerHTML = htmlText;
+              var script= document.createElement('script');
+              script.src= 'public/build/bundle.js';
+              document.body.appendChild(script); 
+            } else {
+              console.log("error")
+            }
+          }
+        };
+        xhr.open("get", "/ajax.do?profileId=12", true);
+        xhr.send(null);
+      } else {
+        var script= document.createElement('script');
+        script.src= 'public/build/bundle.js';
+        document.body.appendChild(script); 
+      }
+    }()
+    </script>
+    <!--<script src="public/build/bundle.js"></script>-->
   </body>
 </html>

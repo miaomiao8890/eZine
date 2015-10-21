@@ -1,9 +1,18 @@
 'use strict';
 
 import React from 'react';
+import Reflux from 'reflux';
 import { Link } from 'react-router';
 
+import DetailAction from '../actions/DetailAction';
+import DetailStore from '../stores/DetailStore';
+
 const ListItem = React.createClass({
+
+  mixins: [ 
+    Reflux.connect(DetailStore, 'detail'), 
+  ],
+
   getInitialState() {
     return {
       style: {},
@@ -37,7 +46,7 @@ const ListItem = React.createClass({
     if (this.props.data.sourceType == 3 || this.props.data.sourceType == 4) {
       return (
         <li className="news-item clearfix">
-          <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url}>
+          <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url} onClick={this.getDetailData}>
             {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}
           </a>
@@ -46,14 +55,7 @@ const ListItem = React.createClass({
     } else {
       return (
         <li className="news-item clearfix">
-          <Link to={`/detail/`} query={{ 
-            cid: this.props.cid, 
-            bid: this.props.bid, 
-            oid: this.props.data.objectId,
-            viewType: this.props.viewType,
-            st: this.props.data.sourceType,
-            trace: 'list_' + this.props.cid
-          }} >
+          <Link to={`/detail/`}  onClick={this.getDetailData} >
             {this.getImgComponent(this.props.data.thumbnailPic)}
             {context}
           </Link>
@@ -80,6 +82,17 @@ const ListItem = React.createClass({
       titleDom = <p className="news-title">{ this.props.data.title }</p>
     }
     return titleDom;
+  },
+  getDetailData(event) {
+    event.preventDefault();
+    DetailAction.getInfo(
+      this.props.cid,
+      this.props.bid,
+      this.props.data.objectId,
+      this.props.data.sourceType,
+      this.props.viewType,
+      this.props.isRecommend
+    );
   }
 });
 

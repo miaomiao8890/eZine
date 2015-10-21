@@ -36,6 +36,8 @@ input:focus{border:0;outline:medium}
 .grid-item a img{height: 99%;}
 .grid-item a .grid-title{position: absolute;z-index: 99;top: 67%;text-align: center;width: 100%;}
 .grid-item:nth-child(3n+3){border-right: 0;}
+.loading-bg{position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: #fff;z-index:9998;}
+.loading-icon{position: fixed;width: 3.167rem;height: 2.125rem;left: 50%;top: 50%;margin-left: -1.5835rem;margin-top: -1.0625rem;background: url(../images/loading.gif) center no-repeat ;background-size: 100% 100%;z-index: 9999;}
 /* 列表页 */
 .header-bar{width: 100%;height: 2.75rem;line-height: 2.75rem;border-bottom: 1px solid #e5e5e5;background-color: #f8f8f8;color: #3e3e3e;font-size: 1rem; position: relative;text-indent: 3.75rem;}
 .header-bar .back-btn{position: absolute;display: block;width: 3rem;height: 2.75rem;left: 0;top: 0;background: url(../images/icons-arrowleft.png) center no-repeat;background-size: 1rem 1rem;cursor: pointer;}
@@ -129,13 +131,14 @@ input:focus{border:0;outline:medium}
 .beauty-box ul:last-child{border-left: 1px solid #212121;}
 .beauty-box ul li{margin-bottom: 2px;}
 .beauty-box ul li img{width: 100%;}
-.my-gallery-class{background-color: #212121;}
+.my-gallery-class{background-color: #212121;z-index: 88;}
 .image-element-class{width: 50%;margin-bottom: 2px;}
 .image-element-class img{width: 100%;cursor: pointer;}
+.beauty-img-bg{position: fixed;width: 100%;height: 150%;top: 0;left: 0;background-color: #000;display: none;z-index: 777;}
 .beauty-img{display: none; width: 100%;height: 100%;background-color: #000;position: fixed;left: 0;top: 0;z-index: 999;overflow: hidden;}
 .beauty-img ul{background-color: #000;position: absolute;transform:translate(0px);-webkit-transform:translate(0px);}
-.beauty-img ul li{float: left;text-align: center;display: table; }
-.beauty-img ul li span{display: table-cell;vertical-align: middle;}
+.beauty-img ul li{float: left;text-align: center;display: table;overflow-x: hidden;overflow-y: scroll;}
+.beauty-img ul li span{display: table-cell;vertical-align: middle;overflow-x: hidden;overflow-y: scroll;}
 .beauty-img ul li img{width: 100%;}
 .header-bar-img{width: 100%;height: 2.75rem;line-height: 2.75rem;background-color: #212121;color: #fff;font-size: 1rem; position: fixed;top:0;left:0;text-indent: 3.75rem;z-index: 99;overflow: hidden;}
 .header-bar-img .back-btn-img{position: absolute;display: block;width: 3rem;height: 2.75rem;left: 0;top: 0;background: url(../images/icons-imgarrowleft.png) center no-repeat;background-size: 1rem 1rem;cursor: pointer;}

@@ -18,6 +18,7 @@ const Feedback = React.createClass({
         display: 'none'
       },
       alertText: '',
+      timer: null,
     };
   },
   render() {
@@ -90,7 +91,7 @@ const Feedback = React.createClass({
           display: 'block'
         }
       });
-      let timer = setTimeout(function() {
+      this.state.timer = setTimeout(function() {
         _this.setState({
           bgStyle: {
             display: 'none'
@@ -122,7 +123,8 @@ const Feedback = React.createClass({
           display: 'none'
         }
       });
-      // window.history.go(-1);
+      clearTimeout(this.state.timer);
+      window.history.go(-1);
     } else {
       this.setState({
         bgStyle: {

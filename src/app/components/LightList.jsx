@@ -10,10 +10,19 @@ import StorageMixin from '../mixins/StorageMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import ListAction from '../actions/ListAction';
 import ListStore from '../stores/ListStore';
+import DetailAction from '../actions/DetailAction';
+import DetailStore from '../stores/DetailStore';
 
 const LightList = React.createClass({
 
-  mixins: [ StorageMixin, ScrollMixin, Reflux.connect(ListStore, 'list'), Reflux.listenTo(ListStore, 'onStatusChange')],
+  mixins: [ 
+    StorageMixin, 
+    ScrollMixin, 
+    Reflux.connect(ListStore, 'list'), 
+    Reflux.listenTo(ListStore, 'onStatusChange'),
+    Reflux.connect(DetailStore, 'detail'), 
+    Reflux.listenTo(DetailStore, 'onDetailStatusChange'),
+  ],
 
   getInitialState() {
     return {
@@ -27,12 +36,15 @@ const LightList = React.createClass({
       },
       style: {
         display: 'block'
+      },
+      loadingStyle: {
+        display: 'block'
       }
     };
   },
   componentDidMount() {
     let _data = {};
-    let storage = this.getData();
+    let storage = this.getData("data");
     if(storage && this.props.params.cid == storage.cid) {
       _data.newslist = storage.list;
       _data.cname = storage.cname;
@@ -41,6 +53,7 @@ const LightList = React.createClass({
       _data.isLock = false;
       _data.navlist = storage.navlist;
       _data.style = {display: 'block'};
+      _data.loadingStyle = {display: 'none'};
       this.setState(_data);
       setTimeout(function() {
         scroll(0, storage.position);
@@ -55,6 +68,11 @@ const LightList = React.createClass({
     let newCid = nextProps.params.cid;
 
     if (oldCid !== newCid) {
+      this.setState({
+        loadingStyle: {
+          display: 'block'
+        }
+      });
       ListAction.getAll(newCid);
     }
   },
@@ -75,6 +93,9 @@ const LightList = React.createClass({
           />
         </div>
         <div className="more" style={this.state.morestyle}>页面加载中...</div>
+        <div className="loading-bg" style={this.state.loadingStyle}>
+          <div className="loading-icon"></div>
+        </div>
       </div>
     );
   },
@@ -112,6 +133,9 @@ const LightList = React.createClass({
           },
           style: {
             display: 'block'
+          },
+          loadingStyle: {
+            display: 'none'
           }
         });
       }
@@ -119,11 +143,27 @@ const LightList = React.createClass({
       this.setState({
         morestyle: {
           display: 'none'
+        },
+        loadingStyle: {
+          display: 'none'
         }
       });
     }
   },
-
+  onDetailStatusChange(data) {
+    localStorage.setItem("preData", JSON.stringify(data));
+    let url = "";
+    if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
+      url = "/go.do?st="+data.data.content.current.sourceType+"&url="+data.data.content.current.url;
+    } else {
+      url = "/dev3/app.html#/detail/?cid="+data.data.cid+
+            "&bid="+data.data.bid+
+            "&oid="+data.data.content.current.objectId+
+            "&viewType=light";
+    }
+    window.scroll(0,0);
+    window.location.href = url;
+  }
 });
 
 export default LightList;

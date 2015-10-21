@@ -15,6 +15,7 @@ const ListUl = React.createClass({
           cid={this.props.cid} 
           bid={this.props.bid} 
           viewType={this.props.viewType} 
+          isRecommend={this.props.isRecommend}
         />
       }
     });

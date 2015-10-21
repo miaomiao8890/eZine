@@ -30,9 +30,9 @@ let StorageMixin = {
     }
     localStorage.setItem("data", JSON.stringify(data));  
   },
-  getData() {
-    if (localStorage.getItem("data")) {
-      let data = JSON.parse(localStorage.getItem("data"));
+  getData(key) {
+    if (localStorage.getItem(key)) {
+      let data = JSON.parse(localStorage.getItem(key));
       return data;
     } else {
       return false;

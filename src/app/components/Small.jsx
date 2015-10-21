@@ -12,6 +12,8 @@ import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
 import HotWordsAction from '../actions/HotWordsAction';
 import HotWordsStore from '../stores/HotWordsStore';
+import DetailAction from '../actions/DetailAction';
+import DetailStore from '../stores/DetailStore';
 
 const List = React.createClass({
   
@@ -20,7 +22,9 @@ const List = React.createClass({
     AjaxMixin, 
     ScrollMixin, 
     Reflux.connect(HotWordsStore, 'hotwords'), 
-    Reflux.listenTo(HotWordsStore, 'onStatusChange')
+    Reflux.listenTo(HotWordsStore, 'onStatusChange'),
+    Reflux.connect(DetailStore, 'detail'), 
+    Reflux.listenTo(DetailStore, 'onDetailStatusChange'),
   ],
 
   getInitialState() {
@@ -37,12 +41,15 @@ const List = React.createClass({
       },
       style: {
         display: 'block'
+      },
+      loadingStyle: {
+        display: 'block'
       }
     };
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
-    let storage = this.getData();
+    let storage = this.getData("data");
     let _this = this;
     let _data = {};
     
@@ -62,6 +69,7 @@ const List = React.createClass({
           _data.subject = storage.subject;
           _data.isLock = false;
           _data.style = {display: 'block'};
+          _data.loadingStyle = {display: 'none'};
           _this.setState(_data);
           setTimeout(function() {
             scroll(0, storage.position);
@@ -77,6 +85,7 @@ const List = React.createClass({
               _data.newslist = newlist;
               _data.bid = result.bid;
               _data.style = {display: 'block'};
+              _data.loadingStyle = {display: 'none'};
               _this.setState(_data);
             }
           );
@@ -107,6 +116,9 @@ const List = React.createClass({
             viewType="small"
           />
           <div className="more" style={this.state.morestyle}>页面加载中...</div>
+        </div>
+        <div className="loading-bg" style={this.state.loadingStyle}>
+          <div className="loading-icon"></div>
         </div>
       </div>
     );
@@ -158,6 +170,22 @@ const List = React.createClass({
       });
     }
     return list;
+  },
+  onDetailStatusChange(data) {
+    localStorage.setItem("preData", JSON.stringify(data));
+    let url = "";
+    if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
+      url = "/go.do?st="+data.data.content.current.sourceType+"&url="+data.data.content.current.url;
+    } else {
+      url = "/dev3/app.html#/detail/?cid="+data.data.cid+
+            "&bid="+data.data.bid+
+            "&oid="+data.data.content.current.objectId+
+            "&viewType=small"+
+            "&st="+data.data.content.current.sourceType+
+            "&trace=list_"+data.data.cid;
+    }
+    window.scroll(0,0);
+    window.location.href = url;
   }
 });
 

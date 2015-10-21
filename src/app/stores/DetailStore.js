@@ -11,7 +11,7 @@ const DetailStore = Reflux.createStore({
 
   mixins: [AjaxMixin],
 
-  onGetInfo(cid, bid, oid, st) {
+  onGetInfo(cid, bid, oid, st, viewType, isRecommend) {
     let _this = this;
     let _data = {};
     this.getAjaxData(
@@ -27,7 +27,10 @@ const DetailStore = Reflux.createStore({
           function(result) {
             _data.hotwordslist = result.data.list;
             _data.hotwordsGroup = result.data.nextGroup;
-             
+            _data.viewType = viewType;
+            if (isRecommend) {
+              _data.isRecommend = true;
+            }
             _this.trigger(_data);
           }
         )

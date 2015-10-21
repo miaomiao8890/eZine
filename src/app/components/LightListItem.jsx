@@ -1,9 +1,18 @@
 'use strict';
 
 import React from 'react';
+import Reflux from 'reflux';
 import { Link } from 'react-router';
 
+import DetailAction from '../actions/DetailAction';
+import DetailStore from '../stores/DetailStore';
+
 const LightListItem = React.createClass({
+
+  mixins: [ 
+    Reflux.connect(DetailStore, 'detail'), 
+  ],
+  
   getInitialState() {
     return {
       title: ""
@@ -38,7 +47,7 @@ const LightListItem = React.createClass({
     if (this.props.data.sourceType == 3 || this.props.data.sourceType == 4) {
       return (
         <li className="light-item">
-          <a href={"/go.do?st="+this.props.data.sourceType+"&url="+this.props.data.url}>
+          <a href="###" onClick={this.getDetailData}>
             {context}
           </a>
         </li>
@@ -46,17 +55,21 @@ const LightListItem = React.createClass({
     } else {
       return (
         <li className="light-item">
-          <Link to={`/detail/`} query={{ 
-            cid: this.props.cid, 
-            bid: this.props.bid, 
-            oid: this.props.data.objectId,
-            viewType: 'light'
-          }} >
+          <Link to="###" onClick={this.getDetailData} >
             {context}
           </Link>
         </li>
       );
     }
+  },
+  getDetailData(event) {
+    event.preventDefault();
+    DetailAction.getInfo(
+      this.props.cid,
+      this.props.bid,
+      this.props.data.objectId,
+      this.props.data.sourceType
+    );
   }
 });
 

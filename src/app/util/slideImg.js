@@ -1,12 +1,14 @@
 'use strict';
 
 var slideImg = {
-  init: function(index, getMorecallback) {
+  init: function(index, getMorecallback, lockScrollCallback, btnBackCallback) {
     this.w_width = document.body.clientWidth;
     this.w_height = document.body.clientHeight;
     this.navNode = document.querySelector(".header-bar-img");
     this.index = index;
     this.getMore = getMorecallback;
+    this.loclScroll = lockScrollCallback;
+    this.btnBack = btnBackCallback;
     this.startPos = {};
     this.endPos = {};
     this.isTouched = false;
@@ -16,7 +18,13 @@ var slideImg = {
     this.calculate();
     this.getRequestAnimationFrame();
     
+    document.querySelector('.my-gallery-class').style.display = "none";
+    document.querySelector('.beauty-img-bg').style.display = "block";
     document.querySelector('.beauty-img').style.display = "block";
+    console.log(this.liAry[this.index].getElementsByTagName("img")[0].offsetHeight);
+    //检查长图
+    this.checkLongImg(this.liAry[this.index].getElementsByTagName("img")[0].offsetHeight);
+    // document.querySelector('.beauty-img').addEventListener("scroll", this.checkScroll.bind(this));
     this.slide(this.ul, this.leftSlide, this.rightSlide);
   },
   calculate: function() {
@@ -24,7 +32,7 @@ var slideImg = {
     this.liAry = this.ul.getElementsByTagName('li');
     this.aryLength = this.liAry.length;
     this.ul.style.width = this.liAry.length * this.w_width + 'px';
-    this.ul.style.height = this.w_height + 'px';
+    this.ul.style.height = this.w_height + 1000 +'px';
     this.ul.style.webkitTransform = 'translate('+ (-this.index * this.w_width) + 'px)';
     this.current = Number(this.ul.style.webkitTransform.match(/\-?[0-9]+/g));;
     for (var i = 0; i < this.liAry.length; i++) {
@@ -48,7 +56,11 @@ var slideImg = {
     window.addEventListener('popstate', handlePopState, false);
     function handlePopState() {
       obj.removeEventListener('touchstart',start,false);
+      // document.querySelector('.my-gallery-class').style.display = "block";
+      document.querySelector('.beauty-img-bg').style.display = "none";
       document.querySelector('.beauty-img').style.display = 'none';
+      _this.btnBack();
+      _this.loclScroll();
     }
     function start(event){
       //event.preventDefault();
@@ -63,7 +75,7 @@ var slideImg = {
       obj.addEventListener('touchend',end,false);
     }
     function move(event){
-      event.preventDefault();
+      // event.preventDefault();
       if (event.touches.length > 1 || event.scale && event.scale !== 1) return;
       
       var touch = event.touches[0];
@@ -75,7 +87,8 @@ var slideImg = {
     function end(event){
       var duration = +new Date - _this.startPos.time; 
       if (Number(duration) > 100) {
-        if (_this.endPos.x > 60) {
+        if (_this.endPos.x > 60 && _this.endPos.y < 20 && _this.endPos.y > -20) {
+          document.querySelector('.beauty-img').scrollTop = 0;
           if (_this.index > 0) {
             // if (_this.navNode.style.display != 'none') {
             //   _this.navNode.style.display = 'none';
@@ -91,13 +104,15 @@ var slideImg = {
                 _this.timerAnimate = null;
                 _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
                 _this.current = newCur;
+                _this.checkLongImg(_this.liAry[_this.index].getElementsByTagName("img")[0].offsetHeight);
               }
             }, 30);
-
             _this.index--
             _this.changeNavTitle();
+            
           }
-        } else if (_this.endPos.x < -60) {
+        } else if (_this.endPos.x < -60 && _this.endPos.y < 20 && _this.endPos.y > -20) {
+          document.querySelector('.beauty-img').scrollTop = 0;
           if (_this.aryLength < _this.liAry.length) {
             _this.isGetMore = false;
             _this.calculate();
@@ -117,6 +132,7 @@ var slideImg = {
                 _this.timerAnimate = null;
                 _this.ul.style.webkitTransform = 'translate('+newCur + 'px)';
                 _this.current = newCur;
+                _this.checkLongImg(_this.liAry[_this.index].getElementsByTagName("img")[0].offsetHeight);
                 if (_this.isGetMore) {
                   _this.getMore();
                 }
@@ -177,6 +193,28 @@ var slideImg = {
     var navTitle = document.querySelectorAll('.image-element-class')[this.index].dataset.title;
     navTitle = navTitle ? navTitle : '';
     document.getElementById("img-title").innerText = navTitle;
+  },
+  checkLongImg: function(h) {
+    var sh = document.documentElement.clientHeight
+        ,imgDom = document.querySelector('.beauty-img')
+        ,img = this.liAry[this.index].getElementsByTagName("img")[0]
+        ,h = img.offsetHeight;
+    if (h > sh) {
+      var _li = this.liAry[this.index];
+      _li.style.display = "block"
+      _li.style.overflowX = "hidden";
+      _li.style.overflowY = "scroll";
+    }
+  },
+  checkScroll: function() {
+    var sh = document.documentElement.clientHeight
+          ,st = document.querySelector('.beauty-img').scrollTop
+          ,img = this.liAry[this.index].getElementsByTagName("img")[0]
+          ,h = img.offsetHeight;
+    if (sh + st >= h) {
+      var new_st = h - sh;
+      document.querySelector('.beauty-img').scrollTop = new_st;
+    }
   },
   getRequestAnimationFrame: function() {
     var lastTime = 0;
