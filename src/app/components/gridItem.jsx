@@ -36,6 +36,7 @@ const GridItem = React.createClass({
   },
   getListData(event) {
     event.preventDefault();
+    document.querySelector(".loading-bar").style.display = "block";
     let cid = this.refs.gridItem.getDOMNode().dataset.cid
         , url = this.refs.gridItem.getDOMNode().href;
     if ("news" == this.props.listViewType) {

@@ -28,24 +28,46 @@ const List = React.createClass({
   ],
 
   getInitialState() {
-    return {
-      cname: null,
-      bid: null,
-      page: 1,
-      newslist: [],
-      hotwordsGroup: 1,
-      hotwordslist: [],
-      subject: null,
-      morestyle: {
-        display: 'none'
-      },
-      style: {
-        display: 'block'
-      },
-      loadingStyle: {
-        display: 'block'
-      }
-    };
+    let initialData = this.getData("preListData"+this.props.params.cid);
+    if (!initialData || initialData == "") {
+      return {
+        cname: null,
+        bid: null,
+        page: 1,
+        newslist: [],
+        hotwordsGroup: 1,
+        hotwordslist: [],
+        subject: null,
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    } else {
+      let list = this.checkSubject(initialData.data);
+      return {
+        cname: initialData.cname,
+        bid: initialData.bid,
+        page: 1,
+        newslist: list,
+        hotwordsGroup: initialData.hotword.hotwordsGroup,
+        hotwordslist: initialData.hotword.hotwordslist,
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    }
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
@@ -75,20 +97,22 @@ const List = React.createClass({
             scroll(0, storage.position);
           },10);
         } else { //ajax
-          localStorage.setItem("data", "");
-          _this.getAjaxData(
-            ajaxConfig.list, 
-            { cid: _this.props.params.cid, p: 1, trace: 'home', at: 7 },
-            function(result) {
-              let newlist = _this.checkSubject(result.data.content)
-              _data.cname = result.cname;
-              _data.newslist = newlist;
-              _data.bid = result.bid;
-              _data.style = {display: 'block'};
-              _data.loadingStyle = {display: 'none'};
-              _this.setState(_data);
-            }
-          );
+          if (!_this.getData("preListData"+_this.props.params.cid)) {
+            localStorage.setItem("data", "");
+            _this.getAjaxData(
+              ajaxConfig.list, 
+              { cid: _this.props.params.cid, p: 1, trace: 'home', at: 7 },
+              function(result) {
+                let newlist = _this.checkSubject(result.data.content)
+                _data.cname = result.cname;
+                _data.newslist = newlist;
+                _data.bid = result.bid;
+                _data.style = {display: 'block'};
+                _data.loadingStyle = {display: 'none'};
+                _this.setState(_data);
+              }
+            );
+          }
         }
       },function() {
         console.log('error');
@@ -172,6 +196,7 @@ const List = React.createClass({
     return list;
   },
   onDetailStatusChange(data) {
+    document.querySelector(".loading-bar").style.display = "none";
     localStorage.setItem("preData", JSON.stringify(data));
     let url = "";
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {

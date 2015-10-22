@@ -85,6 +85,7 @@ const ListItem = React.createClass({
   },
   getDetailData(event) {
     event.preventDefault();
+    document.querySelector(".loading-bar").style.display = "block";
     DetailAction.getInfo(
       this.props.cid,
       this.props.bid,

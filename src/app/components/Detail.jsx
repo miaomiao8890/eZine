@@ -245,8 +245,9 @@ const Detail = React.createClass({
         //   oid: data.objectId,
         //   viewType: this.props.location.query.viewType
         // }} className="news-detail-side">{ type + "：" + data.title }</Link>
-        <a className="news-detail-side" href={"/dev3/app.html#/detail/?cid="+this.state.data.cid+"&bid="+this.state.data.bid+"&oid="+data.objectId+"&viewType="+this.props.location.query.viewType}>
-          <span>{type}</span>{"：" + data.title }
+        <a className="news-detail-side" href={"/app.html#/detail/?cid="+this.state.data.cid+"&bid="+this.state.data.bid+"&oid="+data.objectId+"&viewType="+this.props.location.query.viewType}>
+          <span>{type}</span>
+          <span>{"：" + data.title }</span>
         </a>
       );
     }

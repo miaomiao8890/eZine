@@ -33,6 +33,10 @@ const GridList = React.createClass({
     } else {
       url = ajaxConfig.index;
     }
+    // clear localStorage
+    for(var i=localStorage.length - 1 ; i >=0; i--){
+      localStorage.removeItem(localStorage.key(i));
+    }
 
     this.getAjaxData(
       url, {}, function(result) {
@@ -64,7 +68,8 @@ const GridList = React.createClass({
     let type = document.getElementsByTagName("body")[0];
     return type.dataset.type;
   },
-  onStatusChange(data, subChannel, cname, bid, page, isLock, hotword, url) {
+  onStatusChange(data, subChannel, cname, bid, page, isLock, hotword, url, cid) {
+    document.querySelector(".loading-bar").style.display = "none";
     let preData = {};
     preData.data = data;
     preData.subChannel = subChannel;
@@ -73,7 +78,7 @@ const GridList = React.createClass({
     preData.page = page;
     preData.isLock = isLock;
     preData.hotword = hotword;
-    localStorage.setItem("preListData", JSON.stringify(preData));
+    localStorage.setItem("preListData"+cid, JSON.stringify(preData));
     window.scroll(0,0);
     window.location.href = url;
   }

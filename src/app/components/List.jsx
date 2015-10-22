@@ -29,55 +29,76 @@ const List = React.createClass({
   ],
 
   getInitialState() {
-    let initialData = this.getData("preListData")
-        , list = this.checkSubject(initialData.data);
-    console.log(initialData)
-    return {
-      cname: initialData.cname,
-      bid: initialData.bid,
-      page: 1,
-      newslist: list,
-      hotwordsGroup: initialData.hotword.hotwordsGroup,
-      hotwordslist: initialData.hotword.hotwordslist,
-      morestyle: {
-        display: 'none'
-      },
-      style: {
-        display: 'block'
-      },
-      loadingStyle: {
-        display: 'none'
-      }
-    };
+    let initialData = this.getData("preListData"+this.props.params.cid);
+    if (!initialData || initialData == "") {
+      return {
+        cname: null,
+        bid: null,
+        page: 1,
+        newslist: [],
+        hotwordsGroup: 1,
+        hotwordslist: [],
+        subject: null,
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    } else {
+      let list = this.checkSubject(initialData.data);
+      return {
+        cname: initialData.cname,
+        bid: initialData.bid,
+        page: 1,
+        newslist: list,
+        hotwordsGroup: initialData.hotword.hotwordsGroup,
+        hotwordslist: initialData.hotword.hotwordslist,
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    }
   },
   componentDidMount() {
     //this.unsubscribe = HotWordsStore.listen(this.onStatusChange);
-    if (!this.getData("preListData")) {
-      this.setState({isLock: true});
-      
-      let storage = this.getData("data");
-      let _this = this;
-      let _data = {};
-      //getAll
-      this.getAjaxData(
-        ajaxConfig.hotwords, 
-        { group: this.state.hotwordsGroup },
-        function(result) {
-          _data.hotwordslist = result.data.list;
-          _data.hotwordsGroup = result.data.nextGroup;
-          //list
-          if(storage && _this.props.params.cid == storage.cid) {
-            _data.newslist = storage.list;
-            _data.cname = storage.cname;
-            _data.bid = storage.bid;
-            _data.page = storage.page;
-            _data.subject = storage.subject;
-            _data.isLock = false;
-            _data.style = {display: 'block'};
-            _data.loadingStyle = {display: 'none'};
-            _this.setState(_data);
-            scroll(0, storage.position);
-          } else { //ajax
+    
+    this.setState({isLock: true});
+    
+    let storage = this.getData("data");
+    let _this = this;
+    let _data = {};
+    //getAll
+    this.getAjaxData(
+      ajaxConfig.hotwords, 
+      { group: this.state.hotwordsGroup },
+      function(result) {
+        _data.hotwordslist = result.data.list;
+        _data.hotwordsGroup = result.data.nextGroup;
+        //list
+        if(storage && _this.props.params.cid == storage.cid) {
+          _data.newslist = storage.list;
+          _data.cname = storage.cname;
+          _data.bid = storage.bid;
+          _data.page = storage.page;
+          _data.subject = storage.subject;
+          _data.isLock = false;
+          _data.style = {display: 'block'};
+          _data.loadingStyle = {display: 'none'};
+          _this.setState(_data);
+          scroll(0, storage.position);
+        } else { //ajax
+          if (!_this.getData("preListData"+_this.props.params.cid)) {
             localStorage.setItem("data", "");
             _this.getAjaxData(
               ajaxConfig.list, 
@@ -99,13 +120,12 @@ const List = React.createClass({
               }
             );
           }
-        },function() {
-          console.log('error');
         }
-      );
-    } else {
-      localStorage.removeItem("preListData");
-    }
+      },function() {
+        console.log('error');
+      }
+    );
+    
   },
   render() {
     let specialSubjectNode;
@@ -127,6 +147,7 @@ const List = React.createClass({
     }
     return (
       <div id="list" className="full-height" style={this.state.style}>
+        <div className="loading-bar"></div>
         <HeaderBar cname={this.state.cname} />
         {specialSubjectNode}
         <HotWords hotwordslist={this.state.hotwordslist} handleChangeFn={this.handleChange} />
@@ -205,6 +226,7 @@ const List = React.createClass({
     return list;
   },
   onDetailStatusChange(data) {
+    document.querySelector(".loading-bar").style.display = "none";
     localStorage.setItem("preData", JSON.stringify(data));
     let url = "";
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {

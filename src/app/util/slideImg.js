@@ -63,7 +63,7 @@ var slideImg = {
       _this.loclScroll();
     }
     function start(event){
-      //event.preventDefault();
+      // event.preventDefault();
       var touch = event.touches[0];
       _this.startPos = {                                 
         x: touch.pageX,
@@ -83,6 +83,9 @@ var slideImg = {
         x: touch.pageX - _this.startPos.x,
         y: touch.pageY - _this.startPos.y
       };
+      if (_this.endPos.x > 7 || _this.endPos.x < -7) {
+        event.preventDefault();
+      }
     }
     function end(event){
       var duration = +new Date - _this.startPos.time; 
@@ -213,7 +216,7 @@ var slideImg = {
           ,h = img.offsetHeight;
     if (sh + st >= h) {
       var new_st = h - sh;
-      document.querySelector('.beauty-img').scrollTop = new_st;
+      // document.querySelector('.beauty-img').scrollTop = new_st;
     }
   },
   getRequestAnimationFrame: function() {

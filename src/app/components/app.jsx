@@ -12,6 +12,7 @@ const App = React.createClass({
   render() {
     return (
       <div id="app" className="full-height">
+        <div className="loading-bar"></div>
         <div className="grid-box">
           <GridList />
         </div>

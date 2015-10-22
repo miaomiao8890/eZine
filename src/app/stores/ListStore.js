@@ -20,7 +20,7 @@ const ListStore = Reflux.createStore({
         ajaxConfig.list, 
         { cid: cid, p: 1, trace: 'home', at: 7 },
         function(result) {
-          _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, null, url);
+          _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, null, url, cid);
         },
         function() {
           console.log('error')
@@ -38,7 +38,7 @@ const ListStore = Reflux.createStore({
             ajaxConfig.list, 
             { cid: cid, p: 1, trace: 'home', at: 7 },
             function(result) {
-              _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, _data, url);
+              _this.trigger(result.data.content, result.data.subChannel, result.cname, result.bid, 1, false, _data, url, cid);
             },
             function() {
               console.log('error')

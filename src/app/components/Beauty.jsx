@@ -8,6 +8,7 @@ import HeaderBar from './HeaderBar.jsx';
 import Gallery from './Gallery.jsx';
 import BeautyImg from './BeautyImg.jsx';
 
+import StorageMixin from '../mixins/StorageMixin.js';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ScrollMixin from '../mixins/ScrollMixin.js';
 import ListAction from '../actions/ListAction';
@@ -18,6 +19,7 @@ import slideImg from '../util/slideImg.js';
 const Beauty = React.createClass({
   
   mixins: [
+    StorageMixin, 
     AjaxMixin, 
     ScrollMixin, 
     Reflux.connect(ListStore, 'list'), 
@@ -25,30 +27,56 @@ const Beauty = React.createClass({
   ],
 
   getInitialState() {
-    return {
-      cname: null,
-      bid: null,
-      cid: null,
-      page: 1,
-      newslist: [],
-      navlist: [],
-      boxStyle: {
-        display: 'block'
-      },
-      listStyle: {
-        display: 'block'
-      },
-      morestyle: {
-        display: 'none'
-      },
-      loadingStyle: {
-        display: 'block'
-      }
-    };
+    let initialData = this.getData("preListData"+this.props.params.cid);
+    if (!initialData || initialData == "") {
+      return {
+        cname: null,
+        bid: null,
+        cid: null,
+        page: 1,
+        newslist: [],
+        navlist: [],
+        boxStyle: {
+          display: 'block'
+        },
+        listStyle: {
+          display: 'block'
+        },
+        morestyle: {
+          display: 'none'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    } else {
+      return {
+        cname: initialData.cname,
+        bid: initialData.bid,
+        cid: null,
+        page: 1,
+        newslist: initialData.data,
+        navlist: initialData.subChannel,
+        boxStyle: {
+          display: 'block'
+        },
+        listStyle: {
+          display: 'block'
+        },
+        morestyle: {
+          display: 'none'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    }
   },
   componentDidMount() {
-    this.setState({isLock: true});
-    ListAction.getAll(this.props.params.cid);
+    if (!this.getData("preListData"+this.props.params.cid)) {
+      this.setState({isLock: true});
+      ListAction.getAll(this.props.params.cid);
+    }
     // this.getAjaxDataByEasy(
     //   ajaxConfig.list, 
     //   { cid: this.props.params.cid, p: this.state.page },
@@ -82,6 +110,7 @@ const Beauty = React.createClass({
     return (
       <div>
         <div id="beauty" className="full-height" style={this.state.boxStyle}>
+          <div className="loading-bar"></div>
           <HeaderBar cname={this.state.cname} />
           <nav className="beauty-nav clearfix">
             <ul className="clearfix">

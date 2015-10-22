@@ -25,22 +25,42 @@ const LightList = React.createClass({
   ],
 
   getInitialState() {
-    return {
-      cname: null,
-      bid: null,
-      page: 1,
-      newslist: [],
-      navlist: [],
-      morestyle: {
-        display: 'none'
-      },
-      style: {
-        display: 'block'
-      },
-      loadingStyle: {
-        display: 'block'
-      }
-    };
+    let initialData = this.getData("preListData"+this.props.params.cid);
+    if (!initialData || initialData == "") {
+      return {
+        cname: null,
+        bid: null,
+        page: 1,
+        newslist: [],
+        navlist: [],
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    } else {
+      return {
+        cname: initialData.cname,
+        bid: initialData.bid,
+        page: 1,
+        newslist: initialData.data,
+        navlist: initialData.subChannel,
+        morestyle: {
+          display: 'none'
+        },
+        style: {
+          display: 'block'
+        },
+        loadingStyle: {
+          display: 'none'
+        }
+      };
+    }
   },
   componentDidMount() {
     let _data = {};
@@ -59,8 +79,10 @@ const LightList = React.createClass({
         scroll(0, storage.position);
       },10);
     } else {
-      localStorage.setItem("data", "");
-      ListAction.getAll(this.props.params.cid);
+      if (!this.getData("preListData"+this.props.params.cid)) {
+        localStorage.setItem("data", "");
+        ListAction.getAll(this.props.params.cid);
+      }
     }
   },
   componentWillReceiveProps(nextProps) {
@@ -151,6 +173,7 @@ const LightList = React.createClass({
     }
   },
   onDetailStatusChange(data) {
+    document.querySelector(".loading-bar").style.display = "none";
     localStorage.setItem("preData", JSON.stringify(data));
     let url = "";
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
