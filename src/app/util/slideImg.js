@@ -90,7 +90,7 @@ var slideImg = {
     function end(event){
       var duration = +new Date - _this.startPos.time; 
       if (Number(duration) > 100) {
-        if (_this.endPos.x > 60 && _this.endPos.y < 120 && _this.endPos.y > -120) {
+        if (_this.endPos.x > 60 && _this.endPos.y < 160 && _this.endPos.y > -160) {
           document.querySelector('.beauty-img').scrollTop = 0;
           if (_this.index > 0) {
             // if (_this.navNode.style.display != 'none') {
@@ -114,7 +114,7 @@ var slideImg = {
             _this.changeNavTitle();
             
           }
-        } else if (_this.endPos.x < -60 && _this.endPos.y < 120 && _this.endPos.y > -120) {
+        } else if (_this.endPos.x < -60 && _this.endPos.y < 160 && _this.endPos.y > -160) {
           document.querySelector('.beauty-img').scrollTop = 0;
           if (_this.aryLength < _this.liAry.length) {
             _this.isGetMore = false;

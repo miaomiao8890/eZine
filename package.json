@@ -17,7 +17,7 @@
     "gulp": "^3.8.11",
     "react": "^0.13.3",
     "react-masonry-component": "^1.0.4",
-    "react-router": "^0.13.3",
+    "react-router": "^1.0.0-beta3",
     "reactify": "^1.1.1",
     "reflux": "^0.2.12",
     "watchify": "^3.4.0"
