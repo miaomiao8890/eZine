@@ -101,6 +101,7 @@ const LightList = React.createClass({
   render() {
     return (
       <div id="lightlist" className="full-height" style={this.state.style}>
+        <div className="loading-bar"></div>
         <HeaderBar cname={this.state.cname} />
         <nav className="light-nav clearfix">
           <ul className="clearfix">
@@ -179,7 +180,7 @@ const LightList = React.createClass({
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
       url = "/go.do?st="+data.data.content.current.sourceType+"&url="+data.data.content.current.url;
     } else {
-      url = "/dev3/app.html#/detail/?cid="+data.data.cid+
+      url = "/app.html#/detail/?cid="+data.data.cid+
             "&bid="+data.data.bid+
             "&oid="+data.data.content.current.objectId+
             "&viewType=light";

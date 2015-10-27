@@ -4,6 +4,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import GridItem from './GridItem.jsx';
 
+import StorageMixin from '../mixins/StorageMixin.js';
 import AjaxMixin from '../mixins/AjaxMixin.js';
 import ajaxConfig from '../util/ajaxConfig.js';
 import ListAction from '../actions/ListAction';
@@ -12,15 +13,23 @@ import ListStore from '../stores/ListStore';
 const GridList = React.createClass({
 
   mixins: [
+    StorageMixin,
     AjaxMixin,
     Reflux.connect(ListStore, 'list'), 
     Reflux.listenTo(ListStore, 'onStatusChange'),
   ],
 
   getInitialState() {
-    return {
-      grids: []
-    };
+    let initialData = this.getData("indexData");
+    if (!initialData || initialData == "") {
+      return {
+        grids: []
+      };
+    } else {
+      return {
+        grids: initialData.data
+      };
+    }
   },
   componentDidMount() {
     let _this = this
@@ -37,16 +46,18 @@ const GridList = React.createClass({
     for(var i=localStorage.length - 1 ; i >=0; i--){
       localStorage.removeItem(localStorage.key(i));
     }
-
-    this.getAjaxData(
-      url, {}, function(result) {
-        if (_this.isMounted()) {
-          _this.setState({
-            grids: result.data
-          });
+    if (!_this.getData("indexData")) {
+      this.getAjaxData(
+        url, {}, function(result) {
+          if (_this.isMounted()) {
+            _this.setState({
+              grids: result.data
+            });
+          }
+          localStorage.setItem("indexData", JSON.stringify(result));
         }
-      }
-    );
+      );
+    }
   },
   render() {
     let gridNodes = this.state.grids.map(grid => (

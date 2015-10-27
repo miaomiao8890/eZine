@@ -232,7 +232,7 @@ const List = React.createClass({
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
       url = "/go.do?st="+data.data.content.current.sourceType+"&url="+data.data.content.current.url;
     } else {
-      url = "/dev3/app.html#/detail/?cid="+data.data.cid+
+      url = "/app.html#/detail/?cid="+data.data.cid+
             "&bid="+data.data.bid+
             "&oid="+data.data.content.current.objectId+
             "&viewType=news"+

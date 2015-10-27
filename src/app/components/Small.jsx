@@ -55,8 +55,6 @@ const List = React.createClass({
         bid: initialData.bid,
         page: 1,
         newslist: list,
-        hotwordsGroup: initialData.hotword.hotwordsGroup,
-        hotwordslist: initialData.hotword.hotwordslist,
         morestyle: {
           display: 'none'
         },
@@ -74,50 +72,39 @@ const List = React.createClass({
     let storage = this.getData("data");
     let _this = this;
     let _data = {};
-    
-    //getAll
-    this.getAjaxData(
-      ajaxConfig.hotwords, 
-      { group: this.state.hotwordsGroup },
-      function(result) {
-        _data.hotwordslist = result.data.list;
-        _data.hotwordsGroup = result.data.nextGroup;
-        //list
-        if(storage && _this.props.params.cid == storage.cid) {
-          _data.newslist = storage.list;
-          _data.cname = storage.cname;
-          _data.bid = storage.bid;
-          _data.page = storage.page;
-          _data.subject = storage.subject;
-          _data.isLock = false;
-          _data.style = {display: 'block'};
-          _data.loadingStyle = {display: 'none'};
-          _this.setState(_data);
-          setTimeout(function() {
-            scroll(0, storage.position);
-          },10);
-        } else { //ajax
-          if (!_this.getData("preListData"+_this.props.params.cid)) {
-            localStorage.setItem("data", "");
-            _this.getAjaxData(
-              ajaxConfig.list, 
-              { cid: _this.props.params.cid, p: 1, trace: 'home', at: 7 },
-              function(result) {
-                let newlist = _this.checkSubject(result.data.content)
-                _data.cname = result.cname;
-                _data.newslist = newlist;
-                _data.bid = result.bid;
-                _data.style = {display: 'block'};
-                _data.loadingStyle = {display: 'none'};
-                _this.setState(_data);
-              }
-            );
+    //getAll 
+    if(storage && _this.props.params.cid == storage.cid) {
+      _data.newslist = storage.list;
+      _data.cname = storage.cname;
+      _data.bid = storage.bid;
+      _data.page = storage.page;
+      _data.subject = storage.subject;
+      _data.isLock = false;
+      _data.style = {display: 'block'};
+      _data.loadingStyle = {display: 'none'};
+      _this.setState(_data);
+      setTimeout(function() {
+        scroll(0, storage.position);
+      },10);
+    } else { //ajax
+      if (!_this.getData("preListData"+_this.props.params.cid)) {
+        localStorage.setItem("data", "");
+        _this.getAjaxData(
+          ajaxConfig.list, 
+          { cid: _this.props.params.cid, p: 1, trace: 'home', at: 7 },
+          function(result) {
+            let newlist = _this.checkSubject(result.data.content)
+            _data.cname = result.cname;
+            _data.newslist = newlist;
+            _data.bid = result.bid;
+            _data.style = {display: 'block'};
+            _data.loadingStyle = {display: 'none'};
+            _this.setState(_data);
           }
-        }
-      },function() {
-        console.log('error');
+        );
       }
-    );
+    }
+      
   },
   render() {
     let specialSubjectNode;
@@ -130,6 +117,7 @@ const List = React.createClass({
     }
     return (
       <div id="list" className="full-height" style={this.state.style}>
+        <div className="loading-bar"></div>
         <HeaderBar cname={this.state.cname} />
         {specialSubjectNode}
         <div className="news-box subject">
@@ -202,7 +190,7 @@ const List = React.createClass({
     if (data.data.content.current.sourceType == 3 || data.data.content.current.sourceType == 4) {
       url = "/go.do?st="+data.data.content.current.sourceType+"&url="+data.data.content.current.url;
     } else {
-      url = "/dev3/app.html#/detail/?cid="+data.data.cid+
+      url = "/app.html#/detail/?cid="+data.data.cid+
             "&bid="+data.data.bid+
             "&oid="+data.data.content.current.objectId+
             "&viewType=small"+
