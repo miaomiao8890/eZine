@@ -10,7 +10,7 @@ npm-debug.log*
 
 # Folder
 node_modules
-#public
+public
 static
 ajax
 .DS_Store
